@@ -1,6 +1,7 @@
 import type { Meta, StoryFn } from '@storybook/vue3';
 import { MuffinSelect, selectSizes } from '../';
 import type { SelectProps } from '../';
+import { ref } from 'vue';
 
 export default {
   title: 'Core Ui/Components/Inputs/Select',
@@ -13,17 +14,22 @@ export default {
     options: {
       control: 'object',
     },
+    placeholder: {
+      control: 'text'
+    }
   },
 } as Meta;
 
 const Template: StoryFn<SelectProps> = (args) => ({
   components: { MuffinSelect },
   setup() {
-    return { args };
+    const selectedOption = ref();
+
+    return { args, selectedOption };
   },
   template: ` <div class="flex flex-col flex-1 w-full">
                 <div class="max-w-md w-full mx-auto">
-                  <MuffinSelect v-bind="args"/>
+                  <MuffinSelect v-bind="args" :selectedOption="selectedOption" @update:selectedOption="(nextOption) => selectedOption = nextOption"/>
                   <div>{{'hello'}}</div>
                 </div>
               </div>
@@ -41,4 +47,5 @@ Default.args = {
     { value: 'sebasaceves@muffin.com', text: 'Sebastián' },
     { value: 'victordiaz@muffin.com', text: 'Victor Díaz' },
   ],
+  placeholder: 'Elige un usuario'
 };
