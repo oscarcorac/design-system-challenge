@@ -70,7 +70,7 @@ onClickOutside(target, () => hideOptions());
 
   &__box {
     @apply w-full box-border cursor-pointer;
-    @apply flex items-center text-[#6B7280];
+    @apply flex items-center text-[#6B7280] text-longform-sm;
     @apply border border-solid border-gray-300 rounded-lg outline-none bg-white;
 
     &--md {
