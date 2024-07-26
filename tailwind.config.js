@@ -13,7 +13,13 @@ module.exports = {
         primary: ['Inter', 'sans-serif'],
       },
       fontSize: {
+        'longform-xs': ['12px', '16px'],
         'longform-sm': ['14px', '22px'],
+      },
+      textColor: {
+        primary: '#000000',
+        secondary: '#6B7280',
+        'dark-blue': '#1F2937',
       },
     },
   },

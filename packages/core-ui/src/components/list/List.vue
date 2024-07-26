@@ -15,7 +15,7 @@ export default defineComponent({
 
 <style scoped>
 .list {
-  @apply flex flex-col gap-2;
+  @apply flex flex-col gap-1;
   
 }
 </style>

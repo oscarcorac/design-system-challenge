@@ -15,8 +15,8 @@ export default {
       control: 'object',
     },
     placeholder: {
-      control: 'text'
-    }
+      control: 'text',
+    },
   },
 } as Meta;
 
@@ -28,9 +28,9 @@ const Template: StoryFn<SelectProps> = (args) => ({
     return { args, selectedOption };
   },
   template: ` <div class="flex flex-col flex-1 w-full">
-                <div class="max-w-md w-full mx-auto">
+                <div class="max-w-md w-full mx-auto flex  flex-col gap-1">
                   <MuffinSelect v-bind="args" :selectedOption="selectedOption" @update:selectedOption="(nextOption) => selectedOption = nextOption"/>
-                  <div>{{'hello'}}</div>
+                  <div class="text-longform-xs text-secondary">{{'Solo podrás elegir a Victor para continuar.'}}</div>
                 </div>
               </div>
             `,
@@ -47,5 +47,5 @@ Default.args = {
     { value: 'sebasaceves@muffin.com', text: 'Sebastián' },
     { value: 'victordiaz@muffin.com', text: 'Victor Díaz' },
   ],
-  placeholder: 'Elige un usuario'
+  placeholder: 'Elige un usuario',
 };

@@ -21,12 +21,19 @@
         <div
           v-for="option in options"
           :key="option.value"
-          class="cursor-pointer hover:font-medium"
+          class="cursor-pointer hover:font-medium text-longform-sm px-2 py-1"
           @click="selectOption(option)"
         >
           {{ option.text }}
         </div>
       </List>
+    </div>
+
+    <div
+      v-if="isOptionSelected"
+      class="absolute top-[-8px] left-3 text-xs bg-white px-0.5 text-secondary line-clamp-1"
+    >
+      {{ props.placeholder }}
     </div>
   </div>
 </template>
@@ -70,7 +77,7 @@ onClickOutside(target, () => hideOptions());
 
   &__box {
     @apply w-full box-border cursor-pointer;
-    @apply flex items-center text-[#6B7280] text-longform-sm;
+    @apply flex items-center text-secondary text-longform-sm;
     @apply border border-solid border-gray-300 rounded-lg outline-none bg-white;
 
     &--md {
@@ -82,7 +89,7 @@ onClickOutside(target, () => hideOptions());
     }
 
     &--selected {
-      @apply text-black;
+      @apply text-primary;
     }
 
     &:not(.select__box--opened) {
@@ -93,7 +100,7 @@ onClickOutside(target, () => hideOptions());
   }
 
   &__options {
-    @apply absolute z-20 rounded-lg bg-white ring-1 ring-black mt-1 w-full overflow-y-auto p-2 max-h-[114px];
+    @apply absolute z-20 rounded-lg bg-white ring-1 ring-black mt-1 w-full overflow-y-auto p-2 max-h-[114px] text-dark-blue;
 
     scrollbar-width: none;
     -ms-overflow-style: none;
