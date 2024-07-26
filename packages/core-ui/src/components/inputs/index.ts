@@ -1,3 +1,3 @@
-export { default as MuffinSelect } from './Select.vue';
+export { default as MfSelect } from './Select.vue';
 
 export * from './types';

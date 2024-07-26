@@ -18,7 +18,7 @@
       </span>
     </div>
 
-    <div v-if="isOpen" ref="target" class="select__options">
+    <MfPane v-if="isOpen" ref="target" class="select__options">
       <MfList>
         <MfListItem
           v-for="option in options"
@@ -28,7 +28,7 @@
           {{ option.text }}
         </MfListItem>
       </MfList>
-    </div>
+    </MfPane>
   </div>
 </template>
 
@@ -41,6 +41,7 @@ const emits = defineEmits<{
 import { ref, toRef } from 'vue';
 import { onClickOutside } from '@vueuse/core';
 import { MfList, MfListItem } from '../list';
+import { MfPane } from '../cards';
 import { SelectProps, SelectOption } from './types';
 
 const isOpen = ref(false);
@@ -102,8 +103,7 @@ onClickOutside(target, () => hideOptions());
   }
 
   &__options {
-    @apply absolute z-20 rounded-lg bg-white mt-1 w-full overflow-y-auto p-2 max-h-[114px] text-dark-blue;
-    @apply shadow-md;
+    @apply absolute mt-1 overflow-y-auto p-2 max-h-[114px];
 
     scrollbar-width: none;
     -ms-overflow-style: none;
