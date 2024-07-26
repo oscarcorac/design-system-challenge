@@ -1,7 +1,7 @@
 <template>
-  <div :class="['list']">
+  <ul :class="['list']">
     <slot />
-  </div>
+  </ul>
 </template>
 
 <script lang="ts">

@@ -21,6 +21,13 @@ module.exports = {
         secondary: '#6B7280',
         'dark-blue': '#1F2937',
       },
+      boxShadow: {
+        md: '0px 4px 8px 0px #4043443d',
+      },
+      backgroundImage: {
+        'gradient-transparent-white':
+          'linear-gradient(to bottom, transparent 50%, white 50%)',
+      },
     },
   },
   variants: {},

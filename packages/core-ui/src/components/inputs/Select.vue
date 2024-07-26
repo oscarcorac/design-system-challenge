@@ -1,5 +1,9 @@
 <template>
   <div class="select">
+    <div v-if="isOptionSelected" class="select__label">
+      {{ props.placeholder }}
+    </div>
+
     <div
       :class="[
         'select__box',
@@ -9,31 +13,21 @@
       ]"
       @click="showOptions"
     >
-      {{ props.selectedOption?.text ?? props.placeholder }}
+      <span class="select__label__value">
+        {{ props.selectedOption?.text ?? props.placeholder }}
+      </span>
     </div>
-    <div
-      v-if="isOpen"
-      ref="target"
-      class="select__options"
-      :style="{ 'box-shadow': '0px 4px 8px 0px #4043443D' }"
-    >
-      <List>
-        <div
+
+    <div v-if="isOpen" ref="target" class="select__options">
+      <MfList>
+        <MfListItem
           v-for="option in options"
           :key="option.value"
-          class="cursor-pointer hover:font-medium text-longform-sm px-2 py-1"
           @click="selectOption(option)"
         >
           {{ option.text }}
-        </div>
-      </List>
-    </div>
-
-    <div
-      v-if="isOptionSelected"
-      class="absolute top-[-8px] left-3 text-xs bg-white px-0.5 text-secondary line-clamp-1"
-    >
-      {{ props.placeholder }}
+        </MfListItem>
+      </MfList>
     </div>
   </div>
 </template>
@@ -46,7 +40,7 @@ const emits = defineEmits<{
 
 import { ref, toRef } from 'vue';
 import { onClickOutside } from '@vueuse/core';
-import List from '../list/List.vue';
+import { MfList, MfListItem } from '../list';
 import { SelectProps, SelectOption } from './types';
 
 const isOpen = ref(false);
@@ -75,10 +69,18 @@ onClickOutside(target, () => hideOptions());
 .select {
   @apply relative;
 
+  &__label {
+    @apply absolute top-[-8px] left-3 text-xs px-0.5 text-secondary line-clamp-1 bg-gradient-transparent-white;
+  }
+
   &__box {
     @apply w-full box-border cursor-pointer;
     @apply flex items-center text-secondary text-longform-sm;
     @apply border border-solid border-gray-300 rounded-lg outline-none bg-white;
+
+    &__value {
+      @apply line-clamp-1;
+    }
 
     &--md {
       @apply h-[38px] px-4 py-2;
@@ -94,13 +96,14 @@ onClickOutside(target, () => hideOptions());
 
     &:not(.select__box--opened) {
       &:hover {
-        box-shadow: 0px 4px 8px 0px #4043443d;
+        @apply shadow-md;
       }
     }
   }
 
   &__options {
-    @apply absolute z-20 rounded-lg bg-white ring-1 ring-black mt-1 w-full overflow-y-auto p-2 max-h-[114px] text-dark-blue;
+    @apply absolute z-20 rounded-lg bg-white mt-1 w-full overflow-y-auto p-2 max-h-[114px] text-dark-blue;
+    @apply shadow-md;
 
     scrollbar-width: none;
     -ms-overflow-style: none;
