@@ -9,4 +9,6 @@ export type SelectOption = {
 export type SelectProps = {
   size: SelectSize;
   options: SelectOption[];
+  selectedOption?: SelectOption,
+  placeholder? :string
 };
