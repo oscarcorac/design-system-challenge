@@ -167,11 +167,11 @@ onClickOutside(target, () => hideOptions());
     }
 
     &--dirty {
-      @apply font-medium;
+      @apply font-semibold;
     }
 
     &--selected {
-      @apply font-medium;
+      @apply font-semibold;
     }
   }
 }

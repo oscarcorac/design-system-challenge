@@ -14,6 +14,6 @@ export default defineComponent({
 
 <style scoped>
 .list__item {
-  @apply flex justify-start items-center cursor-pointer hover:font-medium text-longform-sm px-2 py-1 line-clamp-1 text-dark-blue;
+  @apply flex justify-start items-center cursor-pointer hover:font-semibold text-longform-sm px-2 py-1 line-clamp-1 text-dark-blue;
 }
 </style>
