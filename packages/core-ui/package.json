@@ -1,0 +1,28 @@
+{
+  "name": "@mf/core-ui",
+  "type": "module",
+  "version": "0.0.0",
+  "private": false,
+  "sideEffects": false,
+  "files": [
+    "dist"
+  ],
+  "main": "./dist/main.js",
+  "module": "./dist/main.js",
+  "types": "./dist/index.d.ts",
+  "scripts": {
+    "precommit": "liKnt-staged",
+    "clean": "rimraf dist *.tsbuildinfo *.log",
+    "build": "run-s clean build:package ts-vue:build",
+    "build:package": "vite build"
+  },
+  "peerDependencies": {
+    "@vueuse/core": ">=10.11.0",
+    "vue": ">=3.4.29",
+    "tailwindcss": ">=3.4.4"
+  },
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.org/"
+  }
+}

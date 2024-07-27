@@ -12,7 +12,7 @@ export default defineComponent({
 });
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
 .list__item {
   @apply flex justify-start items-center cursor-pointer hover:font-semibold text-longform-sm px-2 py-1 line-clamp-1 text-dark-blue;
 }
