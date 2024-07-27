@@ -16,7 +16,9 @@
       <span class="select__box__value">
         {{ props.selectedOption?.text ?? props.placeholder }}
       </span>
-      <MfDownArrowIcon class="w-5 h-5 text-secondary stroke-[0.5] stroke-[#6B7280]"/>
+      <MfDownArrowIcon
+        class="w-5 h-5 text-secondary stroke-[0.5] stroke-[#6B7280]"
+      />
     </div>
 
     <MfPane v-if="isOpen" ref="target" class="select__options" radiusSize="md">
