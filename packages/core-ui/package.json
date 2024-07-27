@@ -1,5 +1,5 @@
 {
-  "name": "@mf/core-ui",
+  "name": "@test-org-oscar/core-ui",
   "type": "module",
   "version": "0.0.0",
   "private": false,
@@ -18,11 +18,12 @@
   },
   "peerDependencies": {
     "@vueuse/core": ">=10.11.0",
-    "vue": ">=3.4.29",
-    "tailwindcss": ">=3.4.4"
+    "tailwindcss": ">=3.4.4",
+    "vue": ">=3.4.29"
   },
   "publishConfig": {
     "access": "public",
     "registry": "https://registry.npmjs.org/"
-  }
+  },
+  "gitHead": "72b964b31570eb7c06e59ab0b46d531f66035eb4"
 }
