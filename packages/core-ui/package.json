@@ -1,5 +1,5 @@
 {
-  "name": "@oscarcorac/core-ui",
+  "name": "challange-public-package",
   "type": "module",
   "version": "0.0.0",
   "private": false,
@@ -26,5 +26,5 @@
     "registry": "https://registry.npmjs.org/"
   },
   "license": "MIT",
-  "gitHead": "90d8c693981c6e6ab234c9a379ef147530da45aa"
+  "gitHead": "71f3c73aef0ad48fe7eaf47095b948d3b63267b8"
 }
