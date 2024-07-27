@@ -2,7 +2,7 @@
 import { onMounted, reactive, ref } from 'vue';
 import { TodoList, useTodoServices } from '@/services/todoServices';
 import { useStore } from 'vuex';
-import { MfSelect } from 'challange-public-package';
+import { MfSelect } from '@oscarcorac/core-ui';
 
 defineProps<{ msg: string }>();
 
