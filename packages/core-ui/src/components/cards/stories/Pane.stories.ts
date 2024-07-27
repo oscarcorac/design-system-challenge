@@ -37,9 +37,9 @@ const Template: StoryFn<PaneProps & { slotImg: string }> = (args) => ({
   template: `   <div class="flex flex-col flex-1 w-full py-12">
                     <div class="max-w-md w-full mx-auto flex flex-col">
                         <MfPane  class="max-w-md p-4 gap-4" v-bind="paneArgs">
-                            <img :src="slotImg"/>
+                            <img :src="slotImg">
                         </MfPane>
-                    <div/>
+                    </div>
                 </div>
             `,
 });

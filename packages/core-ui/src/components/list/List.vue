@@ -8,7 +8,7 @@
 defineProps<{ spacingSize: 'md' }>();
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
 .list {
   @apply flex flex-col gap-1;
 
