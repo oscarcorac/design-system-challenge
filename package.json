@@ -16,6 +16,7 @@
   },
   "dependencies": {
     "@vueuse/core": "^10.11.0",
+    "challange-public-package": "^0.0.0",
     "vue": "^3.4.29",
     "vue-router": "^4.4.0",
     "vuex": "4.1.0"

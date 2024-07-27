@@ -5,6 +5,7 @@ import App from './App.vue';
 import './index.css';
 import HomeView from './views/Home.vue';
 import { createStore } from 'vuex';
+import 'challange-public-package/dist/main.css';
 
 const routes = [{ path: '/', component: HomeView }];
 

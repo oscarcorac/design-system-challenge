@@ -2,10 +2,12 @@
 import { onMounted, reactive, ref } from 'vue';
 import { TodoList, useTodoServices } from '@/services/todoServices';
 import { useStore } from 'vuex';
+import { MfSelect } from 'challange-public-package';
 
 defineProps<{ msg: string }>();
 
 const count = ref(0);
+const selectedOption = ref();
 
 const todoRender = reactive({
   data: ref<TodoList | undefined>(undefined),
@@ -29,6 +31,22 @@ console.log(state.count);
 </script>
 
 <template>
+  <MfSelect
+    v-bind="{
+      size: 'md',
+      options: [
+        { value: 'victordiaz@muffin.com', text: 'Victor Díaz' },
+        { value: 'sebasaceves@muffin.com', text: 'Sebastián' },
+        { value: 'maxmendez@muffin.com', text: 'Max Mendez' },
+        { value: 'jesusmillan@muffin.com', text: 'Jesús Millán' },
+        { value: 'nicholasyepes@muffin.com', text: 'Nicholas Yepes' },
+        { value: 'santiaceves@muffin.com', text: 'Santiago Aceves' },
+      ],
+      placeholder: 'Elige un usuario',
+    }"
+    :selectedOption="selectedOption"
+    @update:selectedOption="(nextOption) => (selectedOption = nextOption)"
+  />
   <h1>{{ msg }}</h1>
 
   <div class="bg-white">
