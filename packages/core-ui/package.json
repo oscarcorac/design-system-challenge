@@ -25,5 +25,5 @@
     "access": "public",
     "registry": "https://registry.npmjs.org/"
   },
-  "gitHead": "72b964b31570eb7c06e59ab0b46d531f66035eb4"
+  "license": "MIT"
 }
