@@ -1,5 +1,5 @@
 import type { Meta, StoryFn } from '@storybook/vue3';
-import { MfSelect, selectSizes } from '../';
+import { MfSelect, selectSizes, selectSort } from '../';
 import type { SelectProps } from '../';
 import { ref } from 'vue';
 
@@ -10,12 +10,26 @@ export default {
     size: {
       options: selectSizes,
       control: 'select',
+      description:
+        'Component size, this will modify the box height and padding',
     },
     options: {
       control: 'object',
+      description: 'Component options, this will be passed to the options card',
     },
     placeholder: {
       control: 'text',
+      description:
+        'Component placeholder, this will shown when no optiin is selected',
+    },
+    sort: {
+      control: 'select',
+      options: selectSort,
+    },
+    selectedOption: {
+      table: {
+        disable: true,
+      },
     },
   },
 } as Meta;
@@ -40,12 +54,27 @@ export const Default = Template.bind({});
 Default.args = {
   size: 'md',
   options: [
-    { value: 'jesusmillan@muffin.com', text: 'Jesús Millán' },
+    { value: 'victordiaz@muffin.com', text: 'Victor Díaz' },
+    { value: 'sebasaceves@muffin.com', text: 'Sebastián' },
     { value: 'maxmendez@muffin.com', text: 'Max Mendez' },
+    { value: 'jesusmillan@muffin.com', text: 'Jesús Millán' },
     { value: 'nicholasyepes@muffin.com', text: 'Nicholas Yepes' },
     { value: 'santiaceves@muffin.com', text: 'Santiago Aceves' },
-    { value: 'sebasaceves@muffin.com', text: 'Sebastián' },
-    { value: 'victordiaz@muffin.com', text: 'Victor Díaz' },
   ],
   placeholder: 'Elige un usuario',
+};
+
+export const Sorted = Template.bind({});
+Sorted.args = {
+  size: 'md',
+  options: [
+    { value: 'victordiaz@muffin.com', text: 'Victor Díaz' },
+    { value: 'sebasaceves@muffin.com', text: 'Sebastián' },
+    { value: 'maxmendez@muffin.com', text: 'Max Mendez' },
+    { value: 'jesusmillan@muffin.com', text: 'Jesús Millán' },
+    { value: 'nicholasyepes@muffin.com', text: 'Nicholas Yepes' },
+    { value: 'santiaceves@muffin.com', text: 'Santiago Aceves' },
+  ],
+  placeholder: 'Elige un usuario',
+  sort: 'alphabetical',
 };

@@ -1,20 +1,24 @@
 <template>
-  <div :class="['pane']">
+  <div :class="['pane', `pane__radius--${radiusSize}`]">
     <slot />
   </div>
 </template>
 
-<script lang="ts">
-import { defineComponent } from 'vue';
+<script lang="ts" setup>
+import { PaneProps } from './types';
 
-export default defineComponent({
-  name: 'Pane',
-});
+defineProps<PaneProps>();
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
 .pane {
   @apply flex flex-col;
-  @apply z-20 rounded-lg bg-white w-full shadow-md;
+  @apply bg-white w-full shadow-md;
+
+  &__radius {
+    &--md {
+      @apply rounded-lg;
+    }
+  }
 }
 </style>

@@ -1,21 +1,19 @@
 <template>
-  <ul :class="['list']">
+  <ul :class="['list', `list--${spacingSize}`]">
     <slot />
   </ul>
 </template>
 
-<script lang="ts">
-import { defineComponent } from 'vue';
-
-export default defineComponent({
-  name: 'List',
-
-});
+<script lang="ts" setup>
+defineProps<{ spacingSize: 'md' }>();
 </script>
 
 <style scoped>
 .list {
   @apply flex flex-col gap-1;
-  
+
+  &--md {
+    @apply gap-1;
+  }
 }
 </style>
