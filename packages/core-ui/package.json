@@ -1,5 +1,5 @@
 {
-  "name": "@test-org-oscar/core-ui",
+  "name": "@oscarcorac/core-ui",
   "type": "module",
   "version": "0.0.0",
   "private": false,
@@ -25,5 +25,6 @@
     "access": "public",
     "registry": "https://registry.npmjs.org/"
   },
-  "license": "MIT"
+  "license": "MIT",
+  "gitHead": "90d8c693981c6e6ab234c9a379ef147530da45aa"
 }
