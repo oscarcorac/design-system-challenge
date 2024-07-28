@@ -9,15 +9,15 @@
     "preview": "vite preview",
     "lint": "eslint . --ext vue,ts,js",
     "lint:fix": "eslint . --ext vue,ts,js --fix",
-    "ts-check": "vue-tsc -b",
+    "ts-check": "vue-tsc",
     "code-check": "npm run lint:fix && npm run ts-check",
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build",
     "publish:packages": "lerna publish from-package"
   },
   "dependencies": {
+    "@oscarcorac/core-ui": "0.0.1",
     "@vueuse/core": "^10.11.0",
-    "@oscarcorac/core-ui": "^0.0.0",
     "vue": "^3.4.29",
     "vue-router": "^4.4.0",
     "vuex": "4.1.0"

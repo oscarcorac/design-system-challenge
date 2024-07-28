@@ -4,7 +4,7 @@ import { TodoList, useTodoServices } from '@/services/todoServices';
 import { useStore } from 'vuex';
 import { MfSelect } from '@oscarcorac/core-ui';
 
-defineProps<{ msg: string }>();
+defineProps<{ msg: string }>(3);
 
 const count = ref(0);
 const selectedOption = ref();

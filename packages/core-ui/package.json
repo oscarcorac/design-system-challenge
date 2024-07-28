@@ -15,7 +15,7 @@
     "clean": "rimraf dist *.tsbuildinfo *.log",
     "build": "run-s clean build:package ts-vue:build",
     "build:package": "vite build",
-    "ts-check": "vue-tsc -b"
+    "ts-check": "vue-tsc"
   },
   "peerDependencies": {
     "@vueuse/core": ">=10.11.0",
