@@ -13,7 +13,8 @@
   "scripts": {
     "clean": "rimraf dist *.tsbuildinfo *.log",
     "build:package": "vite build",
-    "ts-check": "vue-tsc"
+    "ts-check": "vue-tsc",
+    "build": "npm run clean && npm run build:package && npm run ts-check"
   },
   "peerDependencies": {
     "@vueuse/core": ">=10.11.0",
