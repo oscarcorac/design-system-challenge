@@ -11,9 +11,7 @@
   "module": "./dist/main.js",
   "types": "./dist/index.d.ts",
   "scripts": {
-    "precommit": "liKnt-staged",
     "clean": "rimraf dist *.tsbuildinfo *.log",
-    "build": "run-s clean build:package ts-vue:build",
     "build:package": "vite build",
     "ts-check": "vue-tsc"
   },
@@ -26,6 +24,5 @@
     "access": "public",
     "registry": "https://registry.npmjs.org/"
   },
-  "license": "MIT",
-  "gitHead": "71f3c73aef0ad48fe7eaf47095b948d3b63267b8"
+  "license": "MIT"
 }
