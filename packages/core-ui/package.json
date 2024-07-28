@@ -14,7 +14,8 @@
     "precommit": "liKnt-staged",
     "clean": "rimraf dist *.tsbuildinfo *.log",
     "build": "run-s clean build:package ts-vue:build",
-    "build:package": "vite build"
+    "build:package": "vite build",
+    "ts-check": "vue-tsc -b"
   },
   "peerDependencies": {
     "@vueuse/core": ">=10.11.0",
