@@ -48,7 +48,6 @@ const Template: StoryFn<SelectProps> = (args) => ({
   template: ` <div class="flex flex-col flex-1 w-full py-12">
                 <div class="max-w-md w-full mx-auto flex  flex-col gap-1">
                   <MfSelect v-bind="args" :selectedOption="selectedOption" @update:selectedOption="(nextOption) => selectedOption = nextOption"/>
-                  <div class="text-longform-xs text-secondary">{{'Solo podrás elegir a Victor para continuar.'}}</div>
                 </div>
               </div>
             `,

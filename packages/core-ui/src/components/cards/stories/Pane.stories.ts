@@ -1,7 +1,6 @@
 import type { Meta, StoryFn } from '@storybook/vue3';
 import { MfPane, paneRadiusSizes } from '../';
 import type { PaneProps } from '../';
-import { ref } from 'vue';
 
 export default {
   title: 'Core Ui/Components/Cards/Pane',
@@ -11,17 +10,12 @@ export default {
       options: paneRadiusSizes,
       control: 'select',
       description:
-        'Component size, this will modify the box height and padding',
-    },
-    slotImg: {
-      control: 'text',
-      description:
-        'Component content, this will add an image to the default slot',
+        'Defines the radius size of the pane component. Choose from predefined options like small, medium, or large.',
     },
     default: {
-      table: {
-        disable: true,
-      },
+      control: 'text',
+      description:
+        'URL of the image to be displayed inside the pane. This will render as an <img> element.',
     },
   },
 } as Meta;
@@ -29,17 +23,20 @@ export default {
 const Template: StoryFn<PaneProps & { slotImg: string }> = (args) => ({
   components: { MfPane },
   setup() {
-    const selectedOption = ref();
-    const { slotImg, ...paneArgs } = args;
-
-    return { slotImg, paneArgs, selectedOption };
+    return { args };
   },
-  template: `   <div class="flex flex-col flex-1 w-full py-12">
-                    <div class="max-w-md w-full mx-auto flex flex-col">
-                        <MfPane  class="max-w-md p-4 gap-4" v-bind="paneArgs">
-                            <img :src="slotImg">
+  template: `   <div class="flex flex-col flex-1 w-full py-12 mx-12">
+                    <div class="w-full flex flex-col gap-4">
+                        <MfPane class="max-w-xs p-4 gap-4" v-bind="paneArgs">
+                          <img :src="args.default">
                         </MfPane>
-                    </div>
+                        <MfPane  class="max-w-sm p-4 gap-4" v-bind="paneArgs">
+                          <img :src="args.default">
+                        </MfPane>
+                        <MfPane  class="max-w-md p-4 gap-4" v-bind="paneArgs">
+                          <img :src="args.default">
+                        </MfPane>
+                      </div>
                 </div>
             `,
 });
@@ -47,5 +44,5 @@ const Template: StoryFn<PaneProps & { slotImg: string }> = (args) => ({
 export const Default = Template.bind({});
 Default.args = {
   radiusSize: 'md',
-  slotImg: 'https://placehold.co/400x200',
+  default: 'https://placehold.co/400x200',
 };
