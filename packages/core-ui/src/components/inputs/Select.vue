@@ -13,7 +13,19 @@
       ]"
       @click="showOptions"
     >
-      <span class="select__box__value">
+      <template v-if="variant === 'search'">
+        <input
+          ref="inputRef"
+          v-if="isOpen"
+          class="flex flex-1 outline-none text-primary"
+          type="text"
+          @input="filterOptions"
+        />
+        <span v-else class="select__box__value">
+          {{ props.selectedOption?.text ?? props.placeholder }}
+        </span>
+      </template>
+      <span v-else class="select__box__value">
         {{ props.selectedOption?.text ?? props.placeholder }}
       </span>
       <MfChevronDown
@@ -29,7 +41,7 @@
     <MfPane v-if="isOpen" ref="target" class="select__options" radiusSize="md">
       <MfList spacingSize="md">
         <MfListItem
-          v-for="option in sortedOptions"
+          v-for="option in filteredOptions"
           :class="{
             'select__options--dirty': isOptionDirty(option),
             'select__options--selected':
@@ -65,7 +77,7 @@ const emits = defineEmits<{
   'update:selectedOption': [option: SelectOption];
 }>();
 
-import { ref, toRef } from 'vue';
+import { ref, toRef, watch } from 'vue';
 import { onClickOutside, useDebounceFn } from '@vueuse/core';
 import { MfList, MfListItem } from '../list';
 import { MfPane } from '../cards';
@@ -74,12 +86,18 @@ import { MfChevronDown, MfChevronUp, MfCheckmark } from '../../icons';
 
 const isOpen = ref(false);
 const target = ref(null);
+const inputRef = ref<HTMLInputElement | null>(null);
 const dirtyOption = ref<SelectOption | null>(null);
+const search = ref('');
 
 const isAnyOptionSelected = toRef(() => Boolean(props.selectedOption));
 const isAnyOptionDirty = toRef(() => Boolean(dirtyOption.value));
 
 const debouncedHideOptions = useDebounceFn((callback: () => void) => {
+  callback();
+}, 400);
+
+const debouncedFilterOptions = useDebounceFn((callback: () => void) => {
   callback();
 }, 400);
 
@@ -95,6 +113,12 @@ const sortedOptions = toRef(() => {
   return sortedOptions;
 });
 
+const filteredOptions = toRef(() =>
+  sortedOptions.value.filter((value) =>
+    normalizeString(value.text).includes(normalizeString(search.value))
+  )
+);
+
 function isOptionSelected(option: SelectOption) {
   return option.value === props.selectedOption?.value;
 }
@@ -105,15 +129,17 @@ function isOptionDirty(option: SelectOption) {
 
 function showOptions() {
   isOpen.value = true;
+  inputRef.value?.focus();
 }
 
 function hideOptions() {
   isOpen.value = false;
+  search.value = '';
 }
 
-async function selectOption(option: SelectOption) {
+function selectOption(option: SelectOption) {
   dirtyOption.value = option;
-  await debouncedHideOptions(() => {
+  debouncedHideOptions(() => {
     hideOptions();
     emits('update:selectedOption', option);
     dirtyOption.value = null;
@@ -136,7 +162,29 @@ function sortSelectionFirst(options: SelectOption[]) {
   return sortedOptions;
 }
 
+function filterOptions(event: Event) {
+  const { value } = event.currentTarget as HTMLInputElement;
+
+  debouncedFilterOptions(() => {
+    search.value = value;
+  });
+}
+
+function normalizeString(str: string) {
+  return str
+    .toLocaleLowerCase()
+    .replace(/\s+/g, '')
+    .normalize('NFD')
+    .replace(/[\u0300-\u036f]/g, '');
+}
+
 onClickOutside(target, () => hideOptions());
+
+watch(inputRef, () => {
+  if (inputRef.value) {
+    inputRef.value.focus();
+  }
+});
 </script>
 
 <style lang="scss" scoped>

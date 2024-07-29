@@ -1,5 +1,5 @@
 import type { Meta, StoryFn } from '@storybook/vue3';
-import { MfSelect, selectSizes, selectSort } from '../';
+import { MfSelect, selectSizes, selectSort, selectVariants } from '../';
 import type { SelectProps } from '../';
 import { ref } from 'vue';
 
@@ -25,6 +25,10 @@ export default {
     sort: {
       control: 'select',
       options: selectSort,
+    },
+    variant: {
+      control: 'select',
+      options: selectVariants,
     },
     selectedOption: {
       table: {
@@ -77,4 +81,35 @@ Sorted.args = {
   ],
   placeholder: 'Elige un usuario',
   sort: 'alphabetical',
+};
+
+export const Search = Template.bind({});
+Search.args = {
+  size: 'md',
+  options: [
+    { value: 'victordiaz@muffin.com', text: 'Victor Díaz' },
+    { value: 'sebasaceves@muffin.com', text: 'Sebastián' },
+    { value: 'maxmendez@muffin.com', text: 'Max Mendez' },
+    { value: 'jesusmillan@muffin.com', text: 'Jesús Millán' },
+    { value: 'nicholasyepes@muffin.com', text: 'Nicholas Yepes' },
+    { value: 'santiaceves@muffin.com', text: 'Santiago Aceves' },
+  ],
+  placeholder: 'Elige un usuario',
+  variant: 'search',
+};
+
+export const SearchAndSorted = Template.bind({});
+SearchAndSorted.args = {
+  size: 'md',
+  options: [
+    { value: 'victordiaz@muffin.com', text: 'Victor Díaz' },
+    { value: 'sebasaceves@muffin.com', text: 'Sebastián' },
+    { value: 'maxmendez@muffin.com', text: 'Max Mendez' },
+    { value: 'jesusmillan@muffin.com', text: 'Jesús Millán' },
+    { value: 'nicholasyepes@muffin.com', text: 'Nicholas Yepes' },
+    { value: 'santiaceves@muffin.com', text: 'Santiago Aceves' },
+  ],
+  placeholder: 'Elige un usuario',
+  sort: 'alphabetical',
+  variant: 'search',
 };

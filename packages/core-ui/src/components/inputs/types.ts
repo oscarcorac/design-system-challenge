@@ -9,10 +9,14 @@ export type SelectOption = {
   text: string;
 };
 
+export const selectVariants = ['search'] as const;
+export type SelectVariant = (typeof selectVariants)[number];
+
 export type SelectProps = {
   size: SelectSize;
   options: SelectOption[];
   sort?: SelectSort;
   selectedOption?: SelectOption;
   placeholder?: string;
+  variant?: SelectVariant;
 };
