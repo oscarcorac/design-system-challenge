@@ -1,0 +1,3 @@
+*.js diff=javascript
+*.ts diff=typescript
+*.vue diff=vue
