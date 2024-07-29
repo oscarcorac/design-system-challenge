@@ -16,8 +16,13 @@
       <span class="select__box__value">
         {{ props.selectedOption?.text ?? props.placeholder }}
       </span>
-      <MfDownArrowIcon
+      <MfChevronDown
+        v-if="!isOpen"
         class="w-5 h-5 text-secondary stroke-[0.5] stroke-[#6B7280]"
+      />
+      <MfChevronUp
+        v-else
+        class="w-5 h-5 text-black stroke-[0.5] stroke-[#6B7280]"
       />
     </div>
 
@@ -30,10 +35,24 @@
             'select__options--selected':
               !isAnyOptionDirty && isOptionSelected(option),
           }"
+          size="md"
+          variant="menu"
           :key="option.value"
           @click="selectOption(option)"
         >
-          {{ option.text }}
+          <span class="text-dark-blue">
+            {{ option.text }}
+          </span>
+
+          <template #rightIcon>
+            <MfCheckmark
+              v-if="
+                isOptionDirty(option) ||
+                (!isAnyOptionDirty && isOptionSelected(option))
+              "
+              class="w-3 h-3 text-dark-green"
+            />
+          </template>
         </MfListItem>
       </MfList>
     </MfPane>
@@ -51,7 +70,7 @@ import { onClickOutside, useDebounceFn } from '@vueuse/core';
 import { MfList, MfListItem } from '../list';
 import { MfPane } from '../cards';
 import { SelectProps, SelectOption } from './types';
-import { MfDownArrowIcon } from '../../icons';
+import { MfChevronDown, MfChevronUp, MfCheckmark } from '../../icons';
 
 const isOpen = ref(false);
 const target = ref(null);

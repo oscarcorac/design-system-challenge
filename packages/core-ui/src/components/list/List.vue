@@ -10,7 +10,7 @@ defineProps<{ spacingSize: 'md' }>();
 
 <style lang="scss" scoped>
 .list {
-  @apply flex flex-col gap-1;
+  @apply flex flex-col;
 
   &--md {
     @apply gap-1;
