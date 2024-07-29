@@ -39,11 +39,11 @@ project-root/
 
 ---
 
-#### Starts the development server using Vite.
+Starts the development server using Vite.
 
 `npm run serve:dev`
 
-#### Starts the Storybook server.
+Starts the Storybook server.
 
 `npm run serve:storybook: `
 
@@ -51,11 +51,11 @@ project-root/
 
 ---
 
-#### Lints the main application code (./src) with ESLint and automatically fixes issues.
+Lints the main application code (./src) with ESLint and automatically fixes issues.
 
 `npm run check:lint`
 
-#### Lints the Storybook packages (./packages) with ESLint and automatically fixes issues.
+Lints the Storybook packages (./packages) with ESLint and automatically fixes issues.
 
 `npm run check:storybook:lint: `
 
@@ -63,11 +63,11 @@ project-root/
 
 ---
 
-#### Checks TypeScript types for the main application using vue-tsc with tsconfig.app.json.
+Checks TypeScript types for the main application using vue-tsc with tsconfig.app.json.
 
 `npm run check:ts`
 
-#### Checks TypeScript types for the Storybook packages using vue-tsc with tsconfig.storybook.json.
+Checks TypeScript types for the Storybook packages using vue-tsc with tsconfig.storybook.json.
 
 `npm run check:storybook:ts`
 
@@ -75,11 +75,11 @@ project-root/
 
 ---
 
-#### Runs linting and type checking for the main application (check:lint and check:ts).
+Runs linting and type checking for the main application (check:lint and check:ts).
 
 `npm run check:code`
 
-#### Runs linting and type checking for the Storybook packages (check:storybook:lint and check:storybook:ts).
+Runs linting and type checking for the Storybook packages (check:storybook:lint and check:storybook:ts).
 
 `npm run check:storybook:code`
 
@@ -87,15 +87,15 @@ project-root/
 
 ---
 
-#### Builds the production version of the main application after running code checks (check:code).
+Builds the production version of the main application after running code checks (check:code).
 
 `npm run build:prod`
 
-#### Builds the Storybook after running code checks (check:storybook:code).
+Builds the Storybook after running code checks (check:storybook:code).
 
 `npm run build:storybook`
 
-#### Builds all packages managed by Lerna in parallel.
+Builds all packages managed by Lerna in parallel.
 
 `npm run build:packages`
 
@@ -103,6 +103,6 @@ project-root/
 
 ---
 
-#### Publishes the packages managed by Lerna from the existing package versions.
+Publishes the packages managed by Lerna from the existing package versions.
 
 `npm run publish:packages`
