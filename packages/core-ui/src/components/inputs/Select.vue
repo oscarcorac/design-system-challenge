@@ -1,70 +1,86 @@
 <template>
   <div class="select">
-    <div v-if="isAnyOptionSelected" class="select__label">
-      {{ props.placeholder }}
+    <div v-if="selectionInstance.isSomeOptionSelected" class="select__label">
+      {{ placeholder }}
     </div>
 
     <div
       :class="[
         'select__box',
         `select__box--${size}`,
-        { 'select__box--opened': isOpen },
-        { 'select__box--selected': isAnyOptionSelected },
+        { 'select__box--opened': selectionInstance.isOptionsMenuOpened },
+        {
+          'select__box--selected': selectionInstance.isSomeOptionSelected,
+        },
       ]"
-      @click="showOptions"
+      @click="selectionHandlers.showOptions"
     >
       <template v-if="variant === 'search'">
         <input
-          ref="inputRef"
-          v-if="isOpen"
+          ref="selectInputRef"
+          v-if="selectionInstance.isOptionsMenuOpened"
           class="flex flex-1 outline-none text-primary"
           type="text"
-          @input="filterOptions"
+          @input="searchHandlers.handleInputChange"
         />
-        <span v-else class="select__box__value">
-          {{ props.selectedOption?.text ?? props.placeholder }}
+        <span v-else class="select__box__text">
+          {{ selectedOption?.text ?? placeholder }}
         </span>
       </template>
-      <span v-else class="select__box__value">
-        {{ props.selectedOption?.text ?? props.placeholder }}
+      <span v-else class="select__box__text">
+        {{ selectedOption?.text ?? placeholder }}
       </span>
-      <MfChevronDown
-        v-if="!isOpen"
-        class="w-5 h-5 text-secondary stroke-[0.5] stroke-[#6B7280]"
-      />
-      <MfChevronUp
-        v-else
-        class="w-5 h-5 text-black stroke-[0.5] stroke-[#6B7280]"
+      <component
+        :class="
+          selectionInstance.isOptionsMenuOpened
+            ? 'select__box__open-icon'
+            : 'select__box__close-icon'
+        "
+        :is="
+          !selectionInstance.isOptionsMenuOpened ? MfChevronDown : MfChevronUp
+        "
       />
     </div>
 
-    <MfPane v-if="isOpen" ref="target" class="select__options" radiusSize="md">
+    <MfPane
+      v-if="selectionInstance.isOptionsMenuOpened"
+      ref="selectOptionsRef"
+      class="select__options"
+      radiusSize="md"
+    >
       <MfList spacingSize="md">
         <MfListItem
-          v-for="option in filteredOptions"
+          v-if="searchInstance.options.length"
+          v-for="option in searchInstance.options"
           :class="{
-            'select__options--dirty': isOptionDirty(option),
             'select__options--selected':
-              !isAnyOptionDirty && isOptionSelected(option),
+              selectionHandlers.isOptionDirty(option) ||
+              (!selectionInstance.isSomeOptionDirty &&
+                selectionHandlers.isOptionSelected(option)),
           }"
           size="md"
           variant="menu"
           :key="option.value"
-          @click="selectOption(option)"
+          @click="selectionHandlers.selectOption(option)"
         >
-          <span class="text-dark-blue">
+          <span class="select__options__text">
             {{ option.text }}
           </span>
 
           <template #rightIcon>
             <MfCheckmark
               v-if="
-                isOptionDirty(option) ||
-                (!isAnyOptionDirty && isOptionSelected(option))
+                selectionHandlers.isOptionDirty(option) ||
+                (!selectionInstance.isSomeOptionDirty &&
+                  selectionHandlers.isOptionSelected(option))
               "
-              class="w-3 h-3 text-dark-green"
+              class="select__options__icon"
             />
           </template>
+        </MfListItem>
+
+        <MfListItem size="md" variant="default" v-else>
+          {{ 'No items found' }}
         </MfListItem>
       </MfList>
     </MfPane>
@@ -77,114 +93,44 @@ const emits = defineEmits<{
   'update:selectedOption': [option: SelectOption];
 }>();
 
-import { ref, toRef, watch } from 'vue';
-import { onClickOutside, useDebounceFn } from '@vueuse/core';
+import { reactive, ref, toRef, nextTick } from 'vue';
 import { MfList, MfListItem } from '../list';
 import { MfPane } from '../cards';
 import { SelectProps, SelectOption } from './types';
 import { MfChevronDown, MfChevronUp, MfCheckmark } from '../../icons';
+import { useSearchControls } from './useSearchControls';
+import { useOptionSelection } from './useOptionSelection';
 
-const isOpen = ref(false);
-const target = ref(null);
-const inputRef = ref<HTMLInputElement | null>(null);
-const dirtyOption = ref<SelectOption | null>(null);
-const search = ref('');
+const selectOptionsRef = ref(null);
+const selectInputRef = ref<HTMLInputElement | null>(null);
 
-const isAnyOptionSelected = toRef(() => Boolean(props.selectedOption));
-const isAnyOptionDirty = toRef(() => Boolean(dirtyOption.value));
-
-const debouncedHideOptions = useDebounceFn((callback: () => void) => {
-  callback();
-}, 400);
-
-const debouncedFilterOptions = useDebounceFn((callback: () => void) => {
-  callback();
-}, 400);
-
-const sortedOptions = toRef(() => {
-  let sortedOptions = props.options;
-
-  if (props.sort === 'alphabetical') {
-    sortedOptions = sortOptionsByName(sortedOptions);
-  }
-
-  sortedOptions = sortSelectionFirst(sortedOptions);
-
-  return sortedOptions;
-});
-
-const filteredOptions = toRef(() =>
-  sortedOptions.value.filter((value) =>
-    normalizeString(value.text).includes(normalizeString(search.value))
-  )
+const [searchInstance, searchHandlers] = useSearchControls(
+  reactive({
+    sort: toRef(() => props.sort),
+    options: toRef(() => props.options),
+    selectOption: toRef(() => props.selectedOption),
+  })
 );
 
-function isOptionSelected(option: SelectOption) {
-  return option.value === props.selectedOption?.value;
-}
-
-function isOptionDirty(option: SelectOption) {
-  return option.value === dirtyOption.value?.value;
-}
-
-function showOptions() {
-  isOpen.value = true;
-  inputRef.value?.focus();
-}
-
-function hideOptions() {
-  isOpen.value = false;
-  search.value = '';
-}
-
-function selectOption(option: SelectOption) {
-  dirtyOption.value = option;
-  debouncedHideOptions(() => {
-    hideOptions();
-    emits('update:selectedOption', option);
-    dirtyOption.value = null;
-  });
-}
-
-function sortOptionsByName(options: SelectOption[]): SelectOption[] {
-  return options.sort((a, b) => a.text.localeCompare(b.text));
-}
-
-function sortSelectionFirst(options: SelectOption[]) {
-  const filteredOptions = options.filter(
-    (option) => option.value !== props.selectedOption?.value
-  );
-
-  const sortedOptions = props.selectedOption
-    ? [props.selectedOption, ...filteredOptions]
-    : filteredOptions;
-
-  return sortedOptions;
-}
-
-function filterOptions(event: Event) {
-  const { value } = event.currentTarget as HTMLInputElement;
-
-  debouncedFilterOptions(() => {
-    search.value = value;
-  });
-}
-
-function normalizeString(str: string) {
-  return str
-    .toLocaleLowerCase()
-    .replace(/\s+/g, '')
-    .normalize('NFD')
-    .replace(/[\u0300-\u036f]/g, '');
-}
-
-onClickOutside(target, () => hideOptions());
-
-watch(inputRef, () => {
-  if (inputRef.value) {
-    inputRef.value.focus();
+const [selectionInstance, selectionHandlers] = useOptionSelection(
+  reactive({
+    options: toRef(() => props.options),
+    selectedOption: toRef(() => props.selectedOption),
+    selectOptionsRef,
+  }),
+  {
+    async onShowOptions() {
+      await nextTick();
+      selectInputRef.value?.focus();
+    },
+    onHideOptions() {
+      searchHandlers.setSearch('');
+    },
+    onSelectOption(option) {
+      emits('update:selectedOption', option);
+    },
   }
-});
+);
 </script>
 
 <style lang="scss" scoped>
@@ -200,8 +146,16 @@ watch(inputRef, () => {
     @apply flex items-center text-secondary text-longform-sm justify-between gap-1;
     @apply border border-solid border-gray-300 rounded-lg outline-none bg-white;
 
-    &__value {
+    &__text {
       @apply line-clamp-1;
+    }
+
+    &__open-icon {
+      @apply w-5 h-5 text-primary stroke-[0.5] stroke-[#000000];
+    }
+
+    &__close-icon {
+      @apply w-5 h-5 text-secondary stroke-[0.5] stroke-[#6B7280];
     }
 
     &--md {
@@ -229,12 +183,16 @@ watch(inputRef, () => {
     scrollbar-width: none;
     -ms-overflow-style: none;
 
-    &::-webkit-scrollbar {
-      @apply hidden;
+    &__text {
+      @apply text-dark-blue;
     }
 
-    &--dirty {
-      @apply font-semibold;
+    &__icon {
+      @apply w-3 h-3 text-dark-green;
+    }
+
+    &::-webkit-scrollbar {
+      @apply hidden;
     }
 
     &--selected {
