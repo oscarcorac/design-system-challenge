@@ -23,13 +23,16 @@
           type="text"
           @input="searchHandlers.handleInputChange"
         />
+
         <span v-else class="select__box__text">
           {{ selectedOption?.text ?? placeholder }}
         </span>
       </template>
+
       <span v-else class="select__box__text">
         {{ selectedOption?.text ?? placeholder }}
       </span>
+
       <component
         :class="
           selectionInstance.isOptionsMenuOpened
