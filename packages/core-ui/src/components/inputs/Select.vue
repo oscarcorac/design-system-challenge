@@ -108,7 +108,7 @@ const [searchInstance, searchHandlers] = useSearchControls(
   reactive({
     sort: toRef(() => props.sort),
     options: toRef(() => props.options),
-    selectOption: toRef(() => props.selectedOption),
+    selectedOption: toRef(() => props.selectedOption),
   })
 );
 

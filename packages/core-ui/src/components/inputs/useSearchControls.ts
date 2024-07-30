@@ -19,26 +19,33 @@ export function useSearchControls(
     return options.sort((a, b) => a.text.localeCompare(b.text));
   }
 
-  function sortSelectionFirst(options: SelectOption[]) {
+  function sortSelectionFirst(
+    options: SelectOption[],
+    selectedOption?: SelectOption
+  ) {
     const filteredOptions = options.filter(
-      (option) => option.value !== props.selectedOption?.value
+      (option) => option.value !== selectedOption?.value
     );
 
-    const sortedOptions = props.selectedOption
-      ? [props.selectedOption, ...filteredOptions]
+    const sortedOptions = selectedOption
+      ? [selectedOption, ...filteredOptions]
       : filteredOptions;
 
     return sortedOptions;
   }
 
-  function sortOptions(options: SelectOption[], sort?: SelectSort) {
+  function sortOptions(
+    options: SelectOption[],
+    selectedOption?: SelectOption,
+    sort?: SelectSort
+  ) {
     let sortedOptions = options;
 
     if (sort === 'alphabetical') {
       sortedOptions = sortOptionsByName(sortedOptions);
     }
 
-    sortedOptions = sortSelectionFirst(sortedOptions);
+    sortedOptions = sortSelectionFirst(sortedOptions, selectedOption);
 
     return sortedOptions;
   }
@@ -68,7 +75,11 @@ export function useSearchControls(
   return [
     reactive({
       options: toRef(() => {
-        const sortedOptions = sortOptions(props.options, props.sort);
+        const sortedOptions = sortOptions(
+          props.options,
+          props.selectedOption,
+          props.sort
+        );
         return filterOptions(sortedOptions, search.value);
       }),
     }),

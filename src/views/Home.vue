@@ -1,30 +1,48 @@
 <script setup lang="ts">
-import { HelloWorld } from '@/components';
+import { MfSelect, SelectOption } from '@oscarcorac/core-ui';
+import { useAsyncState } from '@vueuse/core';
+import { ref } from 'vue';
+
+const selectedOption = ref<SelectOption>();
+
+const { state, isLoading } = useAsyncState<
+  | {
+      id: number;
+      name: string;
+      population: number;
+      land_area: number;
+      density: number;
+      capital: string;
+      currency: string;
+      flag: string;
+    }[]
+  | undefined
+>(
+  fetch('https://freetestapi.com/api/v1/countries', {
+    method: 'GET',
+  }).then((response) => response.json()),
+  undefined
+);
 </script>
 
 <template>
-  <div class="flex items-center justify-center flex-col">
-    <a href="https://vitejs.dev" target="_blank">
-      <img src="/vite.svg" class="logo" alt="Vite logo" />
-    </a>
-    <a href="https://vuejs.org/" target="_blank">
-      <img src="../assets/vue.svg" class="logo vue" alt="Vue logo" />
-    </a>
+  <div class="flex flex-1 w-full flex-col max-w-md p-12 mx-auto">
+    <MfSelect
+      v-if="!isLoading && state"
+      v-bind="{
+        size: 'md',
+        options: state.map((country) => ({
+          value: country.id.toString(),
+          text: country.name,
+        })),
+        placeholder: 'Elige un usuario',
+      }"
+      variant="search"
+      sort="alphabetical"
+      :selectedOption="selectedOption"
+      @update:selectedOption="(nextOption) => (selectedOption = nextOption)"
+    />
   </div>
-  <HelloWorld msg="Vite + Vue" />
 </template>
 
-<style scoped>
-.logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
-  transition: filter 300ms;
-}
-.logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
-}
-.logo.vue:hover {
-  filter: drop-shadow(0 0 2em #42b883aa);
-}
-</style>
+<style lang="scss" scoped></style>

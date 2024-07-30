@@ -18,7 +18,7 @@
     "publish:packages": "lerna publish from-package"
   },
   "dependencies": {
-    "@oscarcorac/core-ui": "0.0.1",
+    "@oscarcorac/core-ui": "0.0.2",
     "@vueuse/core": "^10.11.0",
     "vue": "^3.4.29",
     "vue-router": "^4.4.0",
