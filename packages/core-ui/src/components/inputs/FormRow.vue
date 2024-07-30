@@ -1,7 +1,7 @@
 <template>
   <div :class="['form-row', `form-row--${size}`]">
     <slot />
-    <div class="text-longform-xs text-secondary">
+    <div class="form-row__description">
       <slot name="description" />
     </div>
   </div>
@@ -14,6 +14,10 @@ defineProps<{ size: 'md' }>();
 <style lang="scss" scoped>
 .form-row {
   @apply flex flex-col;
+
+  &__description {
+    @apply text-longform-xs text-secondary;
+  }
 
   &--md {
     @apply gap-1;

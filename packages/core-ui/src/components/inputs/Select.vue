@@ -19,7 +19,7 @@
         <input
           ref="selectInputRef"
           v-if="selectionInstance.isOptionsMenuOpened"
-          class="flex flex-1 outline-none text-primary"
+          class="select__box__search"
           type="text"
           @input="searchHandlers.handleInputChange"
         />
@@ -150,12 +150,16 @@ const [selectionInstance, selectionHandlers] = useOptionSelection(
       @apply line-clamp-1;
     }
 
+    &__search {
+      @apply flex flex-1 outline-none text-primary;
+    }
+
     &__open-icon {
-      @apply w-5 h-5 text-primary stroke-[0.5] stroke-[#000000];
+      @apply w-5 h-5 text-primary stroke-[0.5] stroke-primary;
     }
 
     &__close-icon {
-      @apply w-5 h-5 text-secondary stroke-[0.5] stroke-[#6B7280];
+      @apply w-5 h-5 text-secondary stroke-[0.5] stroke-secondary;
     }
 
     &--md {
@@ -163,7 +167,7 @@ const [selectionInstance, selectionHandlers] = useOptionSelection(
     }
 
     &--opened {
-      @apply border-[#164E63];
+      @apply border-brand-blue;
     }
 
     &--selected {
@@ -183,16 +187,16 @@ const [selectionInstance, selectionHandlers] = useOptionSelection(
     scrollbar-width: none;
     -ms-overflow-style: none;
 
+    &::-webkit-scrollbar {
+      @apply hidden;
+    }
+
     &__text {
       @apply text-dark-blue;
     }
 
     &__icon {
       @apply w-3 h-3 text-dark-green;
-    }
-
-    &::-webkit-scrollbar {
-      @apply hidden;
     }
 
     &--selected {

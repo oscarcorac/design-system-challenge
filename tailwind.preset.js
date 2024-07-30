@@ -11,11 +11,13 @@ module.exports = {
           'longform-xs': ['12px', '16px'],
           'longform-sm': ['14px', '22px'],
         },
-        textColor: {
+        colors: {
           primary: '#000000',
           secondary: '#6B7280',
           'dark-blue': '#1F2937',
           'dark-green': '#0E7490',
+          'gray-300': '#D1D5DB',
+          'brand-blue': '#164E63',
         },
         boxShadow: {
           md: '0px 4px 8px 0px #4043443d',

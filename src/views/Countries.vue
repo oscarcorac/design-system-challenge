@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { MfSelect, SelectOption } from '@oscarcorac/core-ui';
+import { MfFormRow, MfSelect, SelectOption } from '@oscarcorac/core-ui';
 import { useAsyncState } from '@vueuse/core';
 import { ref } from 'vue';
 
@@ -26,21 +26,27 @@ const { state, isLoading } = useAsyncState<Country[] | undefined>(
 
 <template>
   <div class="flex flex-1 w-full flex-col max-w-md p-12 mx-auto">
-    <MfSelect
-      v-if="!isLoading && state"
-      v-bind="{
-        size: 'md',
-        options: state.map((animal) => ({
-          value: animal.id.toString(),
-          text: animal.name,
-        })),
-        placeholder: 'Elige un país',
-      }"
-      variant="search"
-      sort="alphabetical"
-      :selectedOption="selectedOption"
-      @update:selectedOption="(nextOption) => (selectedOption = nextOption)"
-    />
+    <MfFormRow size="md">
+      <MfSelect
+        v-if="!isLoading && state"
+        v-bind="{
+          size: 'md',
+          options: state.map((animal) => ({
+            value: animal.id.toString(),
+            text: animal.name,
+          })),
+          placeholder: 'Elige un país',
+        }"
+        variant="search"
+        sort="alphabetical"
+        :selectedOption="selectedOption"
+        @update:selectedOption="(nextOption) => (selectedOption = nextOption)"
+      />
+
+      <template #description>
+        {{ 'Este componente renderea una lista de países' }}
+      </template>
+    </MfFormRow>
   </div>
 </template>
 
