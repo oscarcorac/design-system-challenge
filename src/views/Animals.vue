@@ -3,22 +3,24 @@ import { MfSelect, SelectOption } from '@oscarcorac/core-ui';
 import { useAsyncState } from '@vueuse/core';
 import { ref } from 'vue';
 
+type Animal = {
+  id: number;
+  name: string;
+  species: string;
+  family: string;
+  habitd: string;
+  place_of_found: string;
+  diet: string;
+  description: string;
+  weight_kg: number;
+  height_cm: number;
+  image: string;
+};
+
 const selectedOption = ref<SelectOption>();
 
-const { state, isLoading } = useAsyncState<
-  | {
-      id: number;
-      name: string;
-      population: number;
-      land_area: number;
-      density: number;
-      capital: string;
-      currency: string;
-      flag: string;
-    }[]
-  | undefined
->(
-  fetch('https://freetestapi.com/api/v1/countries', {
+const { state, isLoading } = useAsyncState<Animal[] | undefined>(
+  fetch('https://freetestapi.com/api/v1/animals', {
     method: 'GET',
   }).then((response) => response.json()),
   undefined
@@ -35,7 +37,7 @@ const { state, isLoading } = useAsyncState<
           value: country.id.toString(),
           text: country.name,
         })),
-        placeholder: 'Elige un usuario',
+        placeholder: 'Elige un animal',
       }"
       variant="search"
       sort="alphabetical"
