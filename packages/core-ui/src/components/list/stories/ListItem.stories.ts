@@ -22,7 +22,7 @@ export default {
     },
     rightIcon: {
       control: 'select',
-      options: ['✋', '👋', '🖐', '🖖', '🤚', undefined],
+      options: ['🇺🇸', undefined],
       description:
         'Select an icon to display on the right side of the component.',
     },
