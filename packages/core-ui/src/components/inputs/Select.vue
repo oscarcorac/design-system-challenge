@@ -59,9 +59,7 @@
           v-for="option in filterOptionsInstance.processedOptions"
           :class="{
             'select__options--selected':
-              optionsStateHandlers.isOptionDirty(option) ||
-              (!optionsStateInstance.isSomeOptionDirty &&
-                optionsStateHandlers.isOptionSelected(option)),
+              optionsStateHandlers.isOptionActive(option),
           }"
           size="md"
           variant="menu"
@@ -74,11 +72,7 @@
 
           <template #rightIcon>
             <MfCheckmark
-              v-if="
-                optionsStateHandlers.isOptionDirty(option) ||
-                (!optionsStateInstance.isSomeOptionDirty &&
-                  optionsStateHandlers.isOptionSelected(option))
-              "
+              v-if="optionsStateHandlers.isOptionActive(option)"
               class="select__options__icon"
             />
           </template>

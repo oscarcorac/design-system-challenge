@@ -22,6 +22,12 @@ export function useSelectOptionsState(
     return option.value === dirtyOption.value?.value;
   }
 
+  function isOptionActive(option: SelectOption) {
+    return (
+      isOptionDirty(option) || (!isSomeOptionDirty && isOptionSelected(option))
+    );
+  }
+
   function setDirtyOption(option: SelectOption | null) {
     dirtyOption.value = option;
   }
@@ -48,6 +54,7 @@ export function useSelectOptionsState(
       hideOptions,
       isOptionDirty,
       isOptionSelected,
+      isOptionActive,
       setDirtyOption,
     },
   ] as const;
