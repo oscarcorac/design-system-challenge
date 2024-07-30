@@ -45,7 +45,7 @@
     <MfPane
       v-if="selectionInstance.isOptionsMenuOpened"
       ref="selectOptionsRef"
-      class="select__options"
+      :class="['select__options', `select__options--${optionsSize}`]"
       radiusSize="md"
     >
       <MfList size="md" padding="md">
@@ -80,7 +80,7 @@
         </MfListItem>
 
         <MfListItem size="md" variant="default" v-else>
-          {{ 'No items found' }}
+          <slot name="emptyOptions" />
         </MfListItem>
       </MfList>
     </MfPane>
@@ -182,7 +182,7 @@ const [selectionInstance, selectionHandlers] = useOptionSelection(
   }
 
   &__options {
-    @apply absolute mt-1 overflow-y-auto max-h-[114px];
+    @apply absolute mt-1 overflow-y-auto;
 
     scrollbar-width: none;
     -ms-overflow-style: none;
@@ -193,6 +193,10 @@ const [selectionInstance, selectionHandlers] = useOptionSelection(
 
     &__text {
       @apply text-dark-blue;
+    }
+
+    &--md {
+      @apply max-h-[114px];
     }
 
     &__icon {

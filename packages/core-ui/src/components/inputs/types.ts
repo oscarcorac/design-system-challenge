@@ -1,4 +1,4 @@
-export const selectSizes = ['md' /* More sizes to be added here */] as const;
+export const selectSizes = ['md'] as const;
 export type SelectSize = (typeof selectSizes)[number];
 
 export const selectSort = ['alphabetical'] as const;
@@ -12,9 +12,13 @@ export type SelectOption = {
 export const selectVariants = ['search'] as const;
 export type SelectVariant = (typeof selectVariants)[number];
 
+export const selectOptionsSizes = ['md'] as const;
+export type SelectOptionsSize = (typeof selectOptionsSizes)[number];
+
 export type SelectProps = {
   size: SelectSize;
   options: SelectOption[];
+  optionsSize: SelectOptionsSize;
   sort?: SelectSort;
   selectedOption?: SelectOption;
   placeholder?: string;

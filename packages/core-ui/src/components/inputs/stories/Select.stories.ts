@@ -47,7 +47,11 @@ const Template: StoryFn<SelectProps> = (args) => ({
   },
   template: ` <div class="flex flex-col flex-1 w-full py-12">
                 <div class="max-w-md w-full mx-auto flex  flex-col gap-1">
-                  <MfSelect v-bind="args" :selectedOption="selectedOption" @update:selectedOption="(nextOption) => selectedOption = nextOption"/>
+                  <MfSelect v-bind="args" :selectedOption="selectedOption" @update:selectedOption="(nextOption) => selectedOption = nextOption">
+                    <template #emptyOptions>
+                      {{ 'No se encontraron usuarios' }}
+                    </template>
+                  </MfSelect>
                 </div>
               </div>
             `,
@@ -56,6 +60,7 @@ const Template: StoryFn<SelectProps> = (args) => ({
 export const Default = Template.bind({});
 Default.args = {
   size: 'md',
+  optionsSize: 'md',
   options: [
     { value: 'victordiaz@muffin.com', text: 'Victor Díaz' },
     { value: 'sebasaceves@muffin.com', text: 'Sebastián' },
@@ -70,6 +75,7 @@ Default.args = {
 export const Sorted = Template.bind({});
 Sorted.args = {
   size: 'md',
+  optionsSize: 'md',
   options: [
     { value: 'victordiaz@muffin.com', text: 'Victor Díaz' },
     { value: 'sebasaceves@muffin.com', text: 'Sebastián' },
@@ -85,6 +91,7 @@ Sorted.args = {
 export const Search = Template.bind({});
 Search.args = {
   size: 'md',
+  optionsSize: 'md',
   options: [
     { value: 'victordiaz@muffin.com', text: 'Victor Díaz' },
     { value: 'sebasaceves@muffin.com', text: 'Sebastián' },
@@ -100,6 +107,7 @@ Search.args = {
 export const SearchAndSorted = Template.bind({});
 SearchAndSorted.args = {
   size: 'md',
+  optionsSize: 'md',
   options: [
     { value: 'victordiaz@muffin.com', text: 'Victor Díaz' },
     { value: 'sebasaceves@muffin.com', text: 'Sebastián' },
