@@ -24,7 +24,7 @@ export function useSelectOptionsState(
 
   function isOptionActive(option: SelectOption) {
     return (
-      isOptionDirty(option) || (!isSomeOptionDirty && isOptionSelected(option))
+      isOptionDirty(option) || (!isSomeOptionDirty.value && isOptionSelected(option))
     );
   }
 

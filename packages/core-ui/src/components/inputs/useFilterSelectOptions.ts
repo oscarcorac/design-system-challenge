@@ -8,12 +8,12 @@ export function useFilterSelectOptions(
   const search = ref('');
 
   // Computed
-  const processedOptions = toRef(() => {
+  const filteredOptions = toRef(() => {
     return filterOptions(props.options, search.value);
   });
 
-  const isProcessedOptionsListEmpty = toRef(
-    () => !Boolean(processedOptions.value.length)
+  const isFilterOptionsListEmpty = toRef(
+    () => !Boolean(filteredOptions.value.length)
   );
 
   // Fn
@@ -40,8 +40,8 @@ export function useFilterSelectOptions(
 
   return [
     reactive({
-      processedOptions,
-      isProcessedOptionsListEmpty,
+      filteredOptions,
+      isFilterOptionsListEmpty,
     }),
     {
       setSearch,

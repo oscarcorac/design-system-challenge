@@ -55,8 +55,8 @@
     >
       <MfList size="md" padding="md">
         <MfListItem
-          v-if="!filterOptionsInstance.isProcessedOptionsListEmpty"
-          v-for="option in filterOptionsInstance.processedOptions"
+          v-if="!filterOptionsInstance.isFilterOptionsListEmpty"
+          v-for="option in filterOptionsInstance.filteredOptions"
           :class="{
             'select__options--selected':
               optionsStateHandlers.isOptionActive(option),
