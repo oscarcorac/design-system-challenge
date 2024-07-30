@@ -1,11 +1,13 @@
 <template>
-  <ul :class="['list', `list--${spacingSize}`]">
+  <ul :class="['list', `list--${size}`, `list--padding-${padding}`]">
     <slot />
   </ul>
 </template>
 
 <script lang="ts" setup>
-defineProps<{ spacingSize: 'md' }>();
+import { ListProps } from './types';
+
+defineProps<ListProps>();
 </script>
 
 <style lang="scss" scoped>
@@ -14,6 +16,10 @@ defineProps<{ spacingSize: 'md' }>();
 
   &--md {
     @apply gap-1;
+  }
+
+  &--padding-md {
+    @apply p-2;
   }
 }
 </style>

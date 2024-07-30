@@ -48,7 +48,7 @@
       class="select__options"
       radiusSize="md"
     >
-      <MfList spacingSize="md">
+      <MfList size="md" padding="md">
         <MfListItem
           v-if="searchInstance.options.length"
           v-for="option in searchInstance.options"
@@ -178,7 +178,7 @@ const [selectionInstance, selectionHandlers] = useOptionSelection(
   }
 
   &__options {
-    @apply absolute mt-1 overflow-y-auto p-2 max-h-[114px];
+    @apply absolute mt-1 overflow-y-auto max-h-[114px];
 
     scrollbar-width: none;
     -ms-overflow-style: none;

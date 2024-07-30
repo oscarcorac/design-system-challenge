@@ -37,9 +37,9 @@ const Template: StoryFn<
     return { args };
   },
   template: `   <div class="flex flex-col flex-1 w-full py-12">
-                    <div class="max-w-md w-full mx-auto flex flex-col">
+                    <div class="max-w-xs w-full mx-auto flex flex-col">
                         <MfPane radiusSize="md">
-                            <MfListItem class="max-w-md p-4 gap-4" v-bind="args">
+                            <MfListItem v-bind="args">
                                 {{args.default}}
                                 <template #rightIcon>
                                     {{args.rightIcon}}
@@ -55,28 +55,28 @@ export const Default = Template.bind({});
 Default.args = {
   size: 'md',
   variant: 'default',
-  default: 'Hello from list default slot',
+  default: 'United States ',
 };
 
 export const DefaultWithIcon = Template.bind({});
 DefaultWithIcon.args = {
   size: 'md',
   variant: 'default',
-  default: 'Hello from list default slot',
-  rightIcon: '👋',
+  default: 'United States ',
+  rightIcon: '🇺🇸',
 };
 
 export const Menu = Template.bind({});
 Menu.args = {
   size: 'md',
   variant: 'menu',
-  default: 'Hello from list default slot',
+  default: 'United States ',
 };
 
 export const MenuWithIcon = Template.bind({});
 MenuWithIcon.args = {
   size: 'md',
   variant: 'menu',
-  default: 'Hello from list default slot',
-  rightIcon: '👋',
+  default: 'United States ',
+  rightIcon: '🇺🇸',
 };

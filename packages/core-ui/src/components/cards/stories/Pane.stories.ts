@@ -10,7 +10,7 @@ export default {
       options: paneRadiusSizes,
       control: 'select',
       description:
-        'Defines the radius size of the pane component. Choose from predefined options like small, medium, or large.',
+        'Defines the radius size of the pane component. Choose from predefined options.',
     },
     default: {
       control: 'text',
@@ -27,13 +27,13 @@ const Template: StoryFn<PaneProps & { slotImg: string }> = (args) => ({
   },
   template: `   <div class="flex flex-col flex-1 w-full py-12 mx-12">
                     <div class="w-full flex flex-col gap-4">
-                        <MfPane class="max-w-xs p-4 gap-4" v-bind="paneArgs">
+                        <MfPane class="max-w-xs p-4 gap-4" v-bind="args">
                           <img :src="args.default">
                         </MfPane>
-                        <MfPane  class="max-w-sm p-4 gap-4" v-bind="paneArgs">
+                        <MfPane  class="max-w-sm p-4 gap-4" v-bind="args">
                           <img :src="args.default">
                         </MfPane>
-                        <MfPane  class="max-w-md p-4 gap-4" v-bind="paneArgs">
+                        <MfPane  class="max-w-md p-4 gap-4" v-bind="args">
                           <img :src="args.default">
                         </MfPane>
                       </div>
