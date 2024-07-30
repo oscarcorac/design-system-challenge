@@ -1,6 +1,6 @@
 <template>
   <div class="select">
-    <div v-if="selectionInstance.isSomeOptionSelected" class="select__label">
+    <div v-if="optionsStateInstance.isSomeOptionSelected" class="select__label">
       {{ placeholder }}
     </div>
 
@@ -8,20 +8,20 @@
       :class="[
         'select__box',
         `select__box--${size}`,
-        { 'select__box--opened': selectionInstance.isOptionsMenuOpened },
+        { 'select__box--opened': optionsStateInstance.isOptionsMenuOpened },
         {
-          'select__box--selected': selectionInstance.isSomeOptionSelected,
+          'select__box--selected': optionsStateInstance.isSomeOptionSelected,
         },
       ]"
-      @click="selectionHandlers.showOptions"
+      @click="optionsStateHandlers.showOptions"
     >
       <template v-if="variant === 'search'">
         <input
           ref="selectInputRef"
-          v-if="selectionInstance.isOptionsMenuOpened"
+          v-if="optionsStateInstance.isOptionsMenuOpened"
           class="select__box__search"
           type="text"
-          @input="searchHandlers.handleInputChange"
+          @input="handleInputChange"
         />
 
         <span v-else class="select__box__text">
@@ -35,36 +35,38 @@
 
       <component
         :class="
-          selectionInstance.isOptionsMenuOpened
+          optionsStateInstance.isOptionsMenuOpened
             ? 'select__box__open-icon'
             : 'select__box__close-icon'
         "
         :is="
-          !selectionInstance.isOptionsMenuOpened ? MfChevronDown : MfChevronUp
+          !optionsStateInstance.isOptionsMenuOpened
+            ? MfChevronDown
+            : MfChevronUp
         "
       />
     </div>
 
     <MfPane
-      v-if="selectionInstance.isOptionsMenuOpened"
+      v-if="optionsStateInstance.isOptionsMenuOpened"
       ref="selectOptionsRef"
       :class="['select__options', `select__options--${optionsSize}`]"
       radiusSize="md"
     >
       <MfList size="md" padding="md">
         <MfListItem
-          v-if="searchInstance.options.length"
-          v-for="option in searchInstance.options"
+          v-if="!filterOptionsInstance.isProcessedOptionsListEmpty"
+          v-for="option in filterOptionsInstance.processedOptions"
           :class="{
             'select__options--selected':
-              selectionHandlers.isOptionDirty(option) ||
-              (!selectionInstance.isSomeOptionDirty &&
-                selectionHandlers.isOptionSelected(option)),
+              optionsStateHandlers.isOptionDirty(option) ||
+              (!optionsStateInstance.isSomeOptionDirty &&
+                optionsStateHandlers.isOptionSelected(option)),
           }"
           size="md"
           variant="menu"
           :key="option.value"
-          @click="selectionHandlers.selectOption(option)"
+          @click="handleSelectOption(option)"
         >
           <span class="select__options__text">
             {{ option.text }}
@@ -73,9 +75,9 @@
           <template #rightIcon>
             <MfCheckmark
               v-if="
-                selectionHandlers.isOptionDirty(option) ||
-                (!selectionInstance.isSomeOptionDirty &&
-                  selectionHandlers.isOptionSelected(option))
+                optionsStateHandlers.isOptionDirty(option) ||
+                (!optionsStateInstance.isSomeOptionDirty &&
+                  optionsStateHandlers.isOptionSelected(option))
               "
               class="select__options__icon"
             />
@@ -101,13 +103,26 @@ import { MfList, MfListItem } from '../list';
 import { MfPane } from '../cards';
 import { SelectProps, SelectOption } from './types';
 import { MfChevronDown, MfChevronUp, MfCheckmark } from '../../icons';
-import { useSearchControls } from './useSearchControls';
-import { useOptionSelection } from './useOptionSelection';
+import { useFilterSelectOptions } from './useFilterSelectOptions';
+import { useSelectOptionsState } from './useSelectOptionsState';
+import { useSortSelectOptions } from './useSortSelectOptions';
+import { onClickOutside, useDebounceFn } from '@vueuse/core';
 
+// Refs
 const selectOptionsRef = ref(null);
 const selectInputRef = ref<HTMLInputElement | null>(null);
 
-const [searchInstance, searchHandlers] = useSearchControls(
+// Composables
+
+const useDebounceSelection = useDebounceFn((callback: () => void) => {
+  callback();
+}, 400);
+
+const useDebounceFiltering = useDebounceFn((callback: () => void) => {
+  callback();
+}, 400);
+
+const [sortOptionsInstance] = useSortSelectOptions(
   reactive({
     sort: toRef(() => props.sort),
     options: toRef(() => props.options),
@@ -115,7 +130,14 @@ const [searchInstance, searchHandlers] = useSearchControls(
   })
 );
 
-const [selectionInstance, selectionHandlers] = useOptionSelection(
+const [filterOptionsInstance, filterOptionsHandlers] = useFilterSelectOptions(
+  reactive({
+    sort: toRef(() => props.sort),
+    options: toRef(() => sortOptionsInstance.sortedOptions),
+  })
+);
+
+const [optionsStateInstance, optionsStateHandlers] = useSelectOptionsState(
   reactive({
     options: toRef(() => props.options),
     selectedOption: toRef(() => props.selectedOption),
@@ -127,13 +149,32 @@ const [selectionInstance, selectionHandlers] = useOptionSelection(
       selectInputRef.value?.focus();
     },
     onHideOptions() {
-      searchHandlers.setSearch('');
-    },
-    onSelectOption(option) {
-      emits('update:selectedOption', option);
+      filterOptionsHandlers.setSearch('');
     },
   }
 );
+
+// Fn
+
+function handleInputChange(event: Event) {
+  const { value } = event.currentTarget as HTMLInputElement;
+
+  useDebounceFiltering(() => {
+    filterOptionsHandlers.setSearch(value);
+  });
+}
+
+function handleSelectOption(option: SelectOption) {
+  optionsStateHandlers.setDirtyOption(option);
+
+  useDebounceSelection(() => {
+    optionsStateHandlers.hideOptions();
+    optionsStateHandlers.setDirtyOption(null);
+    emits('update:selectedOption', option);
+  });
+}
+
+onClickOutside(selectOptionsRef, () => optionsStateHandlers.hideOptions());
 </script>
 
 <style lang="scss" scoped>

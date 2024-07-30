@@ -1,15 +1,11 @@
 import { reactive, ref, toRef } from 'vue';
 import { SelectOption, SelectProps } from './types';
-import { onClickOutside, useDebounceFn } from '@vueuse/core';
 
-export function useOptionSelection(
-  props: Pick<SelectProps, 'selectedOption' | 'options'> & {
-    selectOptionsRef: HTMLInputElement | null;
-  },
+export function useSelectOptionsState(
+  props: Pick<SelectProps, 'selectedOption' | 'options'>,
   handlers: {
     onShowOptions: () => Promise<void>;
     onHideOptions: () => void;
-    onSelectOption: (option: SelectOption) => void;
   }
 ) {
   const isOptionsMenuOpened = ref(false);
@@ -18,16 +14,16 @@ export function useOptionSelection(
   const isSomeOptionSelected = toRef(() => Boolean(props.selectedOption));
   const isSomeOptionDirty = toRef(() => Boolean(dirtyOption.value));
 
-  const useDebounceSelection = useDebounceFn((callback: () => void) => {
-    callback();
-  }, 400);
-
   function isOptionSelected(option: SelectOption) {
     return option.value === props.selectedOption?.value;
   }
 
   function isOptionDirty(option: SelectOption) {
     return option.value === dirtyOption.value?.value;
+  }
+
+  function setDirtyOption(option: SelectOption | null) {
+    dirtyOption.value = option;
   }
 
   function showOptions() {
@@ -40,20 +36,6 @@ export function useOptionSelection(
     handlers.onHideOptions();
   }
 
-  function selectOption(option: SelectOption) {
-    dirtyOption.value = option;
-    useDebounceSelection(() => {
-      hideOptions();
-      dirtyOption.value = null;
-      handlers.onSelectOption(option);
-    });
-  }
-
-  onClickOutside(
-    toRef(() => props.selectOptionsRef),
-    () => hideOptions()
-  );
-
   return [
     reactive({
       isOptionsMenuOpened,
@@ -61,6 +43,12 @@ export function useOptionSelection(
       isSomeOptionSelected,
       isSomeOptionDirty,
     }),
-    { selectOption, showOptions, hideOptions, isOptionDirty, isOptionSelected },
+    {
+      showOptions,
+      hideOptions,
+      isOptionDirty,
+      isOptionSelected,
+      setDirtyOption,
+    },
   ] as const;
 }
