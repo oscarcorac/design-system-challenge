@@ -31,23 +31,32 @@ const { state, isLoading } = useAsyncState<Car[] | undefined>(
 </script>
 
 <template>
-  <div class="flex flex-1 w-full flex-col max-w-md p-12 mx-auto">
-    <MfFormRow size="md">
+  <div class="cars">
+    <MfFormRow v-if="!isLoading && state" size="md">
       <MfSelect
-        v-if="!isLoading && state"
         v-bind="{
           size: 'md',
+          variant: 'search',
+          optionsSize: 'md',
+          sort: 'alphabetical',
           options: state.map((car) => ({
             value: car.id.toString(),
             text: car.model,
+            icon: car.image,
           })),
           placeholder: 'Elige un auto',
         }"
-        variant="search"
-        sort="alphabetical"
         :selectedOption="selectedOption"
         @update:selectedOption="(nextOption) => (selectedOption = nextOption)"
-      />
+      >
+        <template #leftIcon="{ option }">
+          <img v-if="option.icon" class="cars__icon" :src="option.icon" />
+        </template>
+
+        <template #emptyOptions>
+          {{ 'No se encontraron autos' }}
+        </template>
+      </MfSelect>
       <template #description>
         {{ 'Este componente renderea una lista de autos' }}
       </template>
@@ -55,4 +64,12 @@ const { state, isLoading } = useAsyncState<Car[] | undefined>(
   </div>
 </template>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+.cars {
+  @apply flex flex-1 w-full flex-col max-w-md p-12 mx-auto;
+
+  &__icon {
+    @apply w-4 h-3;
+  }
+}
+</style>
