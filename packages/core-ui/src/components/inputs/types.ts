@@ -7,6 +7,7 @@ export type SelectSort = (typeof selectSort)[number];
 export type SelectOption = {
   value: string;
   text: string;
+  icon?: string;
 };
 
 export const selectVariants = ['search'] as const;

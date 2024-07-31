@@ -16,6 +16,12 @@ export default {
       control: 'select',
       description: 'Choose the variant of the component.',
     },
+    leftIcon: {
+      control: 'select',
+      options: ['🇺🇸', undefined],
+      description:
+        'Select an icon to display on the left side of the component.',
+    },
     default: {
       control: 'text',
       description: 'Provide text content for the default slot.',
@@ -40,6 +46,9 @@ const Template: StoryFn<
                     <div class="max-w-xs w-full mx-auto flex flex-col">
                         <MfPane radiusSize="md">
                             <MfListItem v-bind="args">
+                                <template #leftIcon>
+                                    {{args.leftIcon}}
+                                </template>
                                 {{args.default}}
                                 <template #rightIcon>
                                     {{args.rightIcon}}
@@ -58,14 +67,6 @@ Default.args = {
   default: 'United States ',
 };
 
-export const DefaultWithIcon = Template.bind({});
-DefaultWithIcon.args = {
-  size: 'md',
-  variant: 'default',
-  default: 'United States ',
-  rightIcon: '🇺🇸',
-};
-
 export const Menu = Template.bind({});
 Menu.args = {
   size: 'md',
@@ -73,10 +74,27 @@ Menu.args = {
   default: 'United States ',
 };
 
-export const MenuWithIcon = Template.bind({});
-MenuWithIcon.args = {
+export const DefaultWithRightIcon = Template.bind({});
+DefaultWithRightIcon.args = {
   size: 'md',
-  variant: 'menu',
+  variant: 'default',
   default: 'United States ',
+  rightIcon: '🇺🇸',
+};
+
+export const DefaultWithLeftIcon = Template.bind({});
+DefaultWithLeftIcon.args = {
+  size: 'md',
+  variant: 'default',
+  default: 'United States ',
+  leftIcon: '🇺🇸',
+};
+
+export const DefaultWithBothIcons = Template.bind({});
+DefaultWithBothIcons.args = {
+  size: 'md',
+  variant: 'default',
+  default: 'United States ',
+  leftIcon: '🇺🇸',
   rightIcon: '🇺🇸',
 };

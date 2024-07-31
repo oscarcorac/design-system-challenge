@@ -1,5 +1,7 @@
 <template>
   <li :class="['list__item', `list__item--${size}`, `list__item--${variant}`]">
+    <slot name="leftIcon" />
+
     <div class="list__item__content">
       <slot />
     </div>
@@ -15,10 +17,10 @@ defineProps<ListItemProps>();
 
 <style lang="scss" scoped>
 .list__item {
-  @apply flex justify-between items-center;
+  @apply flex items-center gap-2;
 
   &__content {
-    @apply line-clamp-1;
+    @apply flex-1 line-clamp-1;
   }
 
   &--md {

@@ -8,6 +8,7 @@ import {
 } from '../';
 import type { SelectProps } from '../';
 import { ref } from 'vue';
+import { MfAvatar } from '../../../icons';
 
 export default {
   title: 'Core Ui/Components/Inputs/Select',
@@ -53,11 +54,16 @@ export default {
         disable: true,
       },
     },
+    leftIcon: {
+      table: {
+        disable: true,
+      },
+    },
   },
 } as Meta;
 
 const Template: StoryFn<SelectProps> = (args) => ({
-  components: { MfSelect },
+  components: { MfSelect, MfAvatar },
   setup() {
     const selectedOption = ref();
 
@@ -66,6 +72,12 @@ const Template: StoryFn<SelectProps> = (args) => ({
   template: ` <div class="flex flex-col flex-1 w-full py-12">
                 <div class="max-w-md w-full mx-auto flex  flex-col gap-1">
                   <MfSelect v-bind="args" :selectedOption="selectedOption" @update:selectedOption="(nextOption) => selectedOption = nextOption">
+                    <template #leftIcon="{option}" >
+                      <MfAvatar 
+                        v-if="option.icon === 'avatar'" 
+                        class="w-4 h-4 text-dark-blue" 
+                      />
+                    </template>
                     <template #emptyOptions>
                       {{ args.emptyOptions }}
                     </template>
@@ -80,12 +92,20 @@ Default.args = {
   size: 'md',
   optionsSize: 'md',
   options: [
-    { value: 'victordiaz@muffin.com', text: 'Victor Díaz' },
-    { value: 'sebasaceves@muffin.com', text: 'Sebastián' },
-    { value: 'maxmendez@muffin.com', text: 'Max Mendez' },
-    { value: 'jesusmillan@muffin.com', text: 'Jesús Millán' },
-    { value: 'nicholasyepes@muffin.com', text: 'Nicholas Yepes' },
-    { value: 'santiaceves@muffin.com', text: 'Santiago Aceves' },
+    { value: 'victordiaz@muffin.com', text: 'Victor Díaz', icon: 'avatar' },
+    { value: 'sebasaceves@muffin.com', text: 'Sebastián', icon: 'avatar' },
+    { value: 'maxmendez@muffin.com', text: 'Max Mendez', icon: 'avatar' },
+    { value: 'jesusmillan@muffin.com', text: 'Jesús Millán', icon: 'avatar' },
+    {
+      value: 'nicholasyepes@muffin.com',
+      text: 'Nicholas Yepes',
+      icon: 'avatar',
+    },
+    {
+      value: 'santiaceves@muffin.com',
+      text: 'Santiago Aceves',
+      icon: 'avatar',
+    },
   ],
   placeholder: 'Elige un usuario',
   emptyOptions: 'No se encontraron usuarios',
@@ -96,12 +116,20 @@ Sorted.args = {
   size: 'md',
   optionsSize: 'md',
   options: [
-    { value: 'victordiaz@muffin.com', text: 'Victor Díaz' },
-    { value: 'sebasaceves@muffin.com', text: 'Sebastián' },
-    { value: 'maxmendez@muffin.com', text: 'Max Mendez' },
-    { value: 'jesusmillan@muffin.com', text: 'Jesús Millán' },
-    { value: 'nicholasyepes@muffin.com', text: 'Nicholas Yepes' },
-    { value: 'santiaceves@muffin.com', text: 'Santiago Aceves' },
+    { value: 'victordiaz@muffin.com', text: 'Victor Díaz', icon: 'avatar' },
+    { value: 'sebasaceves@muffin.com', text: 'Sebastián', icon: 'avatar' },
+    { value: 'maxmendez@muffin.com', text: 'Max Mendez', icon: 'avatar' },
+    { value: 'jesusmillan@muffin.com', text: 'Jesús Millán', icon: 'avatar' },
+    {
+      value: 'nicholasyepes@muffin.com',
+      text: 'Nicholas Yepes',
+      icon: 'avatar',
+    },
+    {
+      value: 'santiaceves@muffin.com',
+      text: 'Santiago Aceves',
+      icon: 'avatar',
+    },
   ],
   placeholder: 'Elige un usuario',
   emptyOptions: 'No se encontraron usuarios',
@@ -113,12 +141,20 @@ Search.args = {
   size: 'md',
   optionsSize: 'md',
   options: [
-    { value: 'victordiaz@muffin.com', text: 'Victor Díaz' },
-    { value: 'sebasaceves@muffin.com', text: 'Sebastián' },
-    { value: 'maxmendez@muffin.com', text: 'Max Mendez' },
-    { value: 'jesusmillan@muffin.com', text: 'Jesús Millán' },
-    { value: 'nicholasyepes@muffin.com', text: 'Nicholas Yepes' },
-    { value: 'santiaceves@muffin.com', text: 'Santiago Aceves' },
+    { value: 'victordiaz@muffin.com', text: 'Victor Díaz', icon: 'avatar' },
+    { value: 'sebasaceves@muffin.com', text: 'Sebastián', icon: 'avatar' },
+    { value: 'maxmendez@muffin.com', text: 'Max Mendez', icon: 'avatar' },
+    { value: 'jesusmillan@muffin.com', text: 'Jesús Millán', icon: 'avatar' },
+    {
+      value: 'nicholasyepes@muffin.com',
+      text: 'Nicholas Yepes',
+      icon: 'avatar',
+    },
+    {
+      value: 'santiaceves@muffin.com',
+      text: 'Santiago Aceves',
+      icon: 'avatar',
+    },
   ],
   placeholder: 'Elige un usuario',
   emptyOptions: 'No se encontraron usuarios',
@@ -130,12 +166,20 @@ SearchAndSorted.args = {
   size: 'md',
   optionsSize: 'md',
   options: [
-    { value: 'victordiaz@muffin.com', text: 'Victor Díaz' },
-    { value: 'sebasaceves@muffin.com', text: 'Sebastián' },
-    { value: 'maxmendez@muffin.com', text: 'Max Mendez' },
-    { value: 'jesusmillan@muffin.com', text: 'Jesús Millán' },
-    { value: 'nicholasyepes@muffin.com', text: 'Nicholas Yepes' },
-    { value: 'santiaceves@muffin.com', text: 'Santiago Aceves' },
+    { value: 'victordiaz@muffin.com', text: 'Victor Díaz', icon: 'avatar' },
+    { value: 'sebasaceves@muffin.com', text: 'Sebastián', icon: 'avatar' },
+    { value: 'maxmendez@muffin.com', text: 'Max Mendez', icon: 'avatar' },
+    { value: 'jesusmillan@muffin.com', text: 'Jesús Millán', icon: 'avatar' },
+    {
+      value: 'nicholasyepes@muffin.com',
+      text: 'Nicholas Yepes',
+      icon: 'avatar',
+    },
+    {
+      value: 'santiaceves@muffin.com',
+      text: 'Santiago Aceves',
+      icon: 'avatar',
+    },
   ],
   placeholder: 'Elige un usuario',
   emptyOptions: 'No se encontraron usuarios',

@@ -75,6 +75,10 @@
           :key="option.value"
           @click="handleSelectOption(option)"
         >
+          <template #leftIcon>
+            <slot name="leftIcon" :option="option" />
+          </template>
+
           <span class="select__options__text">
             {{ option.text }}
           </span>
