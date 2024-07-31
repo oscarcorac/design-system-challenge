@@ -1,24 +1,32 @@
 <template>
   <div class="select">
-    <div v-if="optionsStateInstance.isSomeOptionSelected" class="select__label">
+    <!-- Label -->
+    <div
+      v-if="manageOptionsStateInstance.isSomeOptionSelected"
+      class="select__label"
+    >
       {{ placeholder }}
     </div>
 
+    <!-- Select box -->
     <div
       :class="[
         'select__box',
         `select__box--${size}`,
-        { 'select__box--opened': optionsStateInstance.isOptionsMenuOpened },
         {
-          'select__box--selected': optionsStateInstance.isSomeOptionSelected,
+          'select__box--opened': manageOptionsStateInstance.isOptionsMenuOpened,
+        },
+        {
+          'select__box--selected':
+            manageOptionsStateInstance.isSomeOptionSelected,
         },
       ]"
-      @click="optionsStateHandlers.showOptions"
+      @click="manageOptionsStateHandlers.showOptions"
     >
       <template v-if="variant === 'search'">
         <input
           ref="selectInputRef"
-          v-if="optionsStateInstance.isOptionsMenuOpened"
+          v-if="manageOptionsStateInstance.isOptionsMenuOpened"
           class="select__box__search"
           type="text"
           @input="handleInputChange"
@@ -35,20 +43,21 @@
 
       <component
         :class="
-          optionsStateInstance.isOptionsMenuOpened
+          manageOptionsStateInstance.isOptionsMenuOpened
             ? 'select__box__open-icon'
             : 'select__box__close-icon'
         "
         :is="
-          !optionsStateInstance.isOptionsMenuOpened
+          !manageOptionsStateInstance.isOptionsMenuOpened
             ? MfChevronDown
             : MfChevronUp
         "
       />
     </div>
 
+    <!-- Select options -->
     <MfPane
-      v-if="optionsStateInstance.isOptionsMenuOpened"
+      v-if="manageOptionsStateInstance.isOptionsMenuOpened"
       ref="selectOptionsRef"
       :class="['select__options', `select__options--${optionsSize}`]"
       radiusSize="md"
@@ -59,7 +68,7 @@
           v-for="option in filterOptionsInstance.filteredOptions"
           :class="{
             'select__options--selected':
-              optionsStateHandlers.isOptionActive(option),
+              manageOptionsStateHandlers.isOptionActive(option),
           }"
           size="md"
           variant="menu"
@@ -72,7 +81,7 @@
 
           <template #rightIcon>
             <MfCheckmark
-              v-if="optionsStateHandlers.isOptionActive(option)"
+              v-if="manageOptionsStateHandlers.isOptionActive(option)"
               class="select__options__icon"
             />
           </template>
@@ -87,27 +96,26 @@
 </template>
 
 <script setup lang="ts">
-const props = defineProps<SelectProps>();
-const emits = defineEmits<{
-  'update:selectedOption': [option: SelectOption];
-}>();
-
-import { reactive, ref, toRef, nextTick } from 'vue';
+import { reactive, ref, toRef } from 'vue';
 import { MfList, MfListItem } from '../list';
 import { MfPane } from '../cards';
 import { SelectProps, SelectOption } from './types';
 import { MfChevronDown, MfChevronUp, MfCheckmark } from '../../icons';
 import { useFilterSelectOptions } from './useFilterSelectOptions';
-import { useSelectOptionsState } from './useSelectOptionsState';
+import { useManageOptionsState } from './useManageOptionsState';
 import { useSortSelectOptions } from './useSortSelectOptions';
 import { onClickOutside, useDebounceFn } from '@vueuse/core';
+
+const props = defineProps<SelectProps>();
+const emits = defineEmits<{
+  'update:selectedOption': [option: SelectOption];
+}>();
 
 // Refs
 const selectOptionsRef = ref(null);
 const selectInputRef = ref<HTMLInputElement | null>(null);
 
 // Composables
-
 const useDebounceSelection = useDebounceFn((callback: () => void) => {
   callback();
 }, 400);
@@ -131,25 +139,23 @@ const [filterOptionsInstance, filterOptionsHandlers] = useFilterSelectOptions(
   })
 );
 
-const [optionsStateInstance, optionsStateHandlers] = useSelectOptionsState(
-  reactive({
-    options: toRef(() => props.options),
-    selectedOption: toRef(() => props.selectedOption),
-    selectOptionsRef,
-  }),
-  {
-    async onShowOptions() {
-      await nextTick();
-      selectInputRef.value?.focus();
-    },
-    onHideOptions() {
-      filterOptionsHandlers.setSearch('');
-    },
-  }
-);
+const [manageOptionsStateInstance, manageOptionsStateHandlers] =
+  useManageOptionsState(
+    reactive({
+      options: toRef(() => props.options),
+      selectedOption: toRef(() => props.selectedOption),
+    }),
+    {
+      onAfterShowOptions() {
+        selectInputRef.value?.focus();
+      },
+      onAfterHideOptions() {
+        filterOptionsHandlers.setSearch('');
+      },
+    }
+  );
 
 // Fn
-
 function handleInputChange(event: Event) {
   const { value } = event.currentTarget as HTMLInputElement;
 
@@ -159,16 +165,19 @@ function handleInputChange(event: Event) {
 }
 
 function handleSelectOption(option: SelectOption) {
-  optionsStateHandlers.setDirtyOption(option);
+  manageOptionsStateHandlers.setDirtyOption(option);
 
   useDebounceSelection(() => {
-    optionsStateHandlers.hideOptions();
-    optionsStateHandlers.setDirtyOption(null);
+    manageOptionsStateHandlers.hideOptions();
+    manageOptionsStateHandlers.setDirtyOption(null);
     emits('update:selectedOption', option);
   });
 }
 
-onClickOutside(selectOptionsRef, () => optionsStateHandlers.hideOptions());
+// Observers
+onClickOutside(selectOptionsRef, () =>
+  manageOptionsStateHandlers.hideOptions()
+);
 </script>
 
 <style lang="scss" scoped>

@@ -1,11 +1,11 @@
-import { reactive, ref, toRef } from 'vue';
+import { nextTick, reactive, ref, toRef } from 'vue';
 import { SelectOption, SelectProps } from './types';
 
-export function useSelectOptionsState(
+export function useManageOptionsState(
   props: Pick<SelectProps, 'selectedOption' | 'options'>,
   handlers: {
-    onShowOptions: () => Promise<void>;
-    onHideOptions: () => void;
+    onAfterShowOptions: () => void;
+    onAfterHideOptions: () => void;
   }
 ) {
   const isOptionsMenuOpened = ref(false);
@@ -24,7 +24,8 @@ export function useSelectOptionsState(
 
   function isOptionActive(option: SelectOption) {
     return (
-      isOptionDirty(option) || (!isSomeOptionDirty.value && isOptionSelected(option))
+      isOptionDirty(option) ||
+      (!isSomeOptionDirty.value && isOptionSelected(option))
     );
   }
 
@@ -32,14 +33,18 @@ export function useSelectOptionsState(
     dirtyOption.value = option;
   }
 
-  function showOptions() {
+  async function showOptions() {
     isOptionsMenuOpened.value = true;
-    handlers.onShowOptions();
+
+    await nextTick();
+    handlers.onAfterShowOptions();
   }
 
-  function hideOptions() {
+  async function hideOptions() {
     isOptionsMenuOpened.value = false;
-    handlers.onHideOptions();
+
+    await nextTick();
+    handlers.onAfterHideOptions();
   }
 
   return [
