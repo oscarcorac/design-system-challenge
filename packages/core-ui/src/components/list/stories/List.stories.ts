@@ -53,6 +53,7 @@ const Template: StoryFn<ListProps> = (args) => ({
                                         {{data.icon}}
                                     </template>
                                 </MfListItem>
+                              </MfList>
                         </MfPane>
                     </div>
                 </div>

@@ -3,5 +3,6 @@
   "compilerOptions": {
     "noEmit": true
   },
-  "include": ["packages/**/*.ts", "packages/**/*.tsx", "packages/**/*.vue"]
+  "include": ["packages/**/*.ts", "packages/**/*.tsx", "packages/**/*.vue"],
+  "exclude": ["packages/**/*.stories.ts"]
 }
