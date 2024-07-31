@@ -8,7 +8,9 @@
 </template>
 
 <script lang="ts" setup>
-defineProps<{ size: 'md' }>();
+import { FormRowProps } from './types';
+
+defineProps<FormRowProps>();
 </script>
 
 <style lang="scss" scoped>

@@ -1,14 +1,31 @@
 import type { Meta, StoryFn } from '@storybook/vue3';
-import { MfFormRow, MfSelect } from '../';
+import { FormRowProps, MfFormRow, MfSelect, formRowSizes } from '../';
 import { ref } from 'vue';
 
 export default {
   title: 'Core Ui/Components/Inputs/FormRow',
   component: MfFormRow,
-  argTypes: {},
+  argTypes: {
+    size: {
+      control: 'select',
+      options: formRowSizes,
+      description:
+        'The size of the form row. Choose from predefined size options.',
+    },
+    description: {
+      control: 'text',
+      description:
+        'A description text that will be displayed below the input field.',
+    },
+    default: {
+      table: {
+        disable: true,
+      },
+    },
+  },
 } as Meta;
 
-const Template: StoryFn = (args) => ({
+const Template: StoryFn<FormRowProps> = (args) => ({
   components: { MfFormRow, MfSelect },
   setup() {
     const selectedOption = ref();
@@ -17,16 +34,10 @@ const Template: StoryFn = (args) => ({
   },
   template: ` <div class="flex flex-col flex-1 w-full py-12">
                 <div class="max-w-md w-full mx-auto flex flex-col gap-4">
-                  <MfFormRow class="pointer-events-none" size="md">
+                  <MfFormRow v-bind="args" class="pointer-events-none" size="md">
                     <MfSelect size="md" placeholder="This is a select"/>
                     <template #description>
-                        {{'This a description for the input field'}}
-                    </template>
-                  </MfFormRow>
-                   <MfFormRow class="pointer-events-none" size="md">
-                    <MfSelect size="md" placeholder="This another select"/>
-                    <template #description>
-                        {{'This a description for the input field'}}
+                        {{args.description}}
                     </template>
                   </MfFormRow>
                 </div>
@@ -35,4 +46,7 @@ const Template: StoryFn = (args) => ({
 });
 
 export const Default = Template.bind({});
-Default.args = {};
+Default.args = {
+  size: 'md',
+  description: 'This a description for the input field',
+};

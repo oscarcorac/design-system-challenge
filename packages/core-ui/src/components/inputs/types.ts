@@ -1,3 +1,4 @@
+// Select
 export const selectSizes = ['md'] as const;
 export type SelectSize = (typeof selectSizes)[number];
 
@@ -24,4 +25,13 @@ export type SelectProps = {
   selectedOption?: SelectOption;
   placeholder?: string;
   variant?: SelectVariant;
+};
+
+// Form Row
+
+export const formRowSizes = ['md'] as const;
+export type FromRowSize = (typeof formRowSizes)[number];
+
+export type FormRowProps = {
+  size: FromRowSize;
 };
