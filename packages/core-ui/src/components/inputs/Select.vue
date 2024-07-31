@@ -190,7 +190,7 @@ onClickOutside(selectOptionsRef, () =>
   @apply relative;
 
   &__label {
-    @apply absolute top-[-8px] left-3 text-xs px-0.5 text-secondary line-clamp-1 bg-gradient-transparent-white max-w-[90%] break-all;
+    @apply absolute top-[-8px] left-3 text-xs px-0.5 text-secondary line-clamp-1 bg-gradient-transparent-white max-w-[80%] break-all;
   }
 
   &__box {
@@ -203,7 +203,7 @@ onClickOutside(selectOptionsRef, () =>
     }
 
     &__search {
-      @apply flex flex-1 outline-none text-primary;
+      @apply flex w-full outline-none text-primary;
     }
 
     &__open-icon {
