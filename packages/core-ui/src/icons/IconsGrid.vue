@@ -1,11 +1,11 @@
 <template>
-  <div class="grid-container">
+  <div class="icons-grid">
     <div
       v-for="(iconData, index) in icons"
       :key="index"
-      class="grid-container__card"
+      class="icons-grid__card"
     >
-      <component :is="iconData.icon" class="grid-container__card__icon" />
+      <component :is="iconData.icon" class="icons-grid__card__icon" />
       <div>
         {{ iconData.name }}
       </div>
@@ -30,7 +30,7 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
-.grid-container {
+.icons-grid {
   @apply grid grid-cols-4 gap-3 text-center;
 
   &__card {

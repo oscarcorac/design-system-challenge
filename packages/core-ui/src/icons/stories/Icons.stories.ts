@@ -1,7 +1,7 @@
 import type { Meta, StoryFn } from '@storybook/vue3';
 import * as Icons from '../';
 
-import IconsGrid from '../Icons.vue';
+import IconsGrid from '../IconsGrid.vue';
 import type { Icon } from '../types';
 
 export default {

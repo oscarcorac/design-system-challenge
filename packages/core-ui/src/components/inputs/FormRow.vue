@@ -23,6 +23,10 @@ defineProps<FormRowProps>();
 
   &--md {
     @apply gap-1;
+
+    & > .form-row__description {
+      @apply text-longform-xs;
+    }
   }
 }
 </style>
