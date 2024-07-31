@@ -1,6 +1,5 @@
 import type { Meta, StoryFn } from '@storybook/vue3';
 import { MfFormRow, MfSelect } from '../';
-// import type { SelectProps } from '../';
 import { ref } from 'vue';
 
 export default {
@@ -9,7 +8,7 @@ export default {
   argTypes: {},
 } as Meta;
 
-const Template: StoryFn<{}> = (args) => ({
+const Template: StoryFn = (args) => ({
   components: { MfFormRow, MfSelect },
   setup() {
     const selectedOption = ref();

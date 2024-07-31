@@ -1,11 +1,11 @@
-# Vue 3 + TypeScript + Vite
+# Vue 3 + TypeScript + Vite + Storybook
 
 ## Prerequisites
 
 Make sure you have the following installed:
 
-- Node.js
-- npm or Yarn
+- Node.js >= 18
+- npm >= 10
 
 ## Folder structure
 
@@ -13,24 +13,29 @@ Make sure you have the following installed:
 
 project-root/
 │
-├── src/                # Main project folder
-│   ├── components/     # React/Vue components
-│   ├── styles/         # CSS/SCSS files
-│   ├── utils/          # Utility functions
-│   └── index.ts        # Entry point
+├── src/                                # Main project folder with Core-ui package installed
+│   │── views/
+│   │    │── Animals                    # Implementation of the Select component with Animals data route (/animals)
+│   │    │── Cars                       # Implementation of the Select component with Cars data route (/cars)
+│   │    └── Countries                  # Implementation of the Select component with Countries data route (home | /countries)
+│   └── index.ts                        # Entry point
 │
-├── packages/           # Packages
-│   └── core-ui         # Core-ui package
+├── packages/                           # Packages project with Storybook
+│   └── core-ui                         # Core-ui package
 │       └── src
 │           │── components
 │           │    │── cards
+│           │    │   └── Pane
 │           │    │── inputs
+│           │    │   │── Select
+│           │    │   └── FormRow
 │           │    └── list
-│           └── icons
+│           │        │── List
+│           │        └── ListItem
+│           │── icons
+│           └── index.ts                # Entry point
 │
-├── README.md           # Project documentation
-├── package.json        # Project metadata and dependencies
-└── tsconfig.json       # TypeScript configuration
+└── README.md                           # Project documentation
 ```
 
 ## Commands

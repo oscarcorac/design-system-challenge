@@ -63,33 +63,34 @@
       radiusSize="md"
     >
       <MfList size="md" padding="md">
-        <MfListItem
-          v-if="!filterOptionsInstance.isFilterOptionsListEmpty"
-          v-for="option in filterOptionsInstance.filteredOptions"
-          :class="{
-            'select__options--selected':
-              manageOptionsStateHandlers.isOptionActive(option),
-          }"
-          size="md"
-          variant="menu"
-          :key="option.value"
-          @click="handleSelectOption(option)"
-        >
-          <template #leftIcon>
-            <slot name="leftIcon" :option="option" />
-          </template>
+        <template v-if="!filterOptionsInstance.isFilterOptionsListEmpty">
+          <MfListItem
+            v-for="option in filterOptionsInstance.filteredOptions"
+            :class="{
+              'select__options--selected':
+                manageOptionsStateHandlers.isOptionActive(option),
+            }"
+            size="md"
+            variant="menu"
+            :key="option.value"
+            @click="handleSelectOption(option)"
+          >
+            <template #leftIcon>
+              <slot name="leftIcon" :option="option" />
+            </template>
 
-          <span class="select__options__text">
-            {{ option.text }}
-          </span>
+            <span class="select__options__text">
+              {{ option.text }}
+            </span>
 
-          <template #rightIcon>
-            <MfCheckmark
-              v-if="manageOptionsStateHandlers.isOptionActive(option)"
-              class="select__options__icon"
-            />
-          </template>
-        </MfListItem>
+            <template #rightIcon>
+              <MfCheckmark
+                v-if="manageOptionsStateHandlers.isOptionActive(option)"
+                class="select__options__icon"
+              />
+            </template>
+          </MfListItem>
+        </template>
 
         <MfListItem size="md" variant="default" v-else>
           <slot name="emptyOptions" />

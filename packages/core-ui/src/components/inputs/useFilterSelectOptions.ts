@@ -12,9 +12,7 @@ export function useFilterSelectOptions(
     return filterOptions(props.options, search.value);
   });
 
-  const isFilterOptionsListEmpty = toRef(
-    () => !Boolean(filteredOptions.value.length)
-  );
+  const isFilterOptionsListEmpty = toRef(() => !filteredOptions.value.length);
 
   // Fn
   function setSearch(value: string) {
