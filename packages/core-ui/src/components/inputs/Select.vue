@@ -23,7 +23,11 @@
       ]"
       @click="manageOptionsStateHandlers.showOptions"
     >
-      <template v-if="variant === 'search'">
+      <template
+        v-if="
+          variant === 'search' && manageOptionsStateInstance.isOptionsMenuOpened
+        "
+      >
         <input
           ref="selectInputRef"
           v-if="manageOptionsStateInstance.isOptionsMenuOpened"
@@ -31,14 +35,10 @@
           type="text"
           @input="handleInputChange"
         />
-
-        <span v-else class="select__box__text">
-          {{ selectedOption?.text ?? placeholder }}
-        </span>
       </template>
 
       <span v-else class="select__box__text">
-        {{ selectedOption?.text ?? placeholder }}
+        {{ selectBoxText }}
       </span>
 
       <component
@@ -119,6 +119,10 @@ const emits = defineEmits<{
 // Refs
 const selectOptionsRef = ref(null);
 const selectInputRef = ref<HTMLInputElement | null>(null);
+
+// Computed
+
+const selectBoxText = toRef(() => props.selectedOption?.text ?? props.placeholder);
 
 // Composables
 const useDebounceSelection = useDebounceFn((callback: () => void) => {
