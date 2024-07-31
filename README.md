@@ -21,18 +21,18 @@ project-root/
 │   └── index.ts                        # Entry point
 │
 ├── packages/                           # Packages project with Storybook
-│   └── core-ui                         # Core-ui package
-│       └── src
-│           │── components              # Components folder including stories
-│           │    │── cards
+│   └── core-ui/                        # Core-ui package
+│       └── src/
+│           │── components/             # Components folder including stories
+│           │    │── cards/
 │           │    │   └── Pane           # Pane card component
-│           │    │── inputs
+│           │    │── inputs/
 │           │    │   │── Select         # Select input component
 │           │    │   └── FormRow        # Form row input component
-│           │    └── list
+│           │    └── list/
 │           │        │── List           # List component
 │           │        └── ListItem       # List item component
-│           │── icons                   # Icons folder including stories
+│           │── icons/                  # Icons folder including stories
 │           └── index.ts                # Entry point
 │
 └── README.md                           # Project documentation
