@@ -50,7 +50,7 @@ Starts the development server using Vite.
 
 Starts the Storybook server.
 
-`npm run serve:storybook: `
+`npm run serve:storybook`
 
 ### Linting
 
